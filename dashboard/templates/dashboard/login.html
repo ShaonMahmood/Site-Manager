@@ -1,0 +1,81 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %}Login to Dashboard | {{ block.super }}{% endblock title %}
+
+{% block extra_css %}
+    <style>
+    .h-100 {height: 100%}
+    form{padding: 25px}
+    .login-form-wrapper {
+        background: #fffddd;
+        border: 1px solid #93a4b5;
+    }
+    .login-form-wrapper>h3 {
+        background: #93a4b5;
+        padding: 12px;
+        color: #fffddd;
+    }
+    .btn{cursor: pointer}
+    @media(max-width: 480px){
+        form{padding: 10px}
+    }
+    </style>
+{% endblock extra_css %}
+
+{% block header %}{% endblock header %}
+{% block extra_header %}{% endblock extra_header %}
+
+{% block container %}
+<div class="container h-100">
+    <div class="row h-100 justify-content-md-center align-items-center">
+        <div class="col col-md-6">
+        
+        {% comment %}{% if request.session.is_logged_out %}
+            <div class="alert alert-danger" role="alert">
+                You're logged out!
+            </div>
+        {% endif %}{% endcomment %}
+        
+            <div class="login-form-wrapper">
+                <h3 class="text-center">Login</h3>
+                
+                <form method="POST" action="">
+
+                {% csrf_token %}
+                    <input  type="hidden" name="next" value="{{ next }}">
+                    
+                    <div class="form-group">
+                        <label for="{{ form.username.id_for_label }}">Email address</label>
+                        <input
+                                type="email" id="{{ form.username.id_for_label }}"
+                                placeholder="Enter email"
+                                class="form-control {% if form.username.errors %}invalid{% endif %} ms-form-control ms-round"
+                                name="{{ form.username.html_name }}"
+                                value="{{ form.username.value|default:'' }}"
+                                aria-describedby="emailHelp">
+                    {% if  form.username.errors %}
+                        <div class="form_field_error form-input-error">{{ form.username.errors|join:" " }}</div>
+                    {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.password.id_for_label }}">Password</label>
+                        <input
+                                type="password"
+                                id="{{ form.password.id_for_label }}"
+                                placeholder="Password"
+                                class="form-control {% if form.password.errors %}invalid{% endif %} ms-form-control ms-round"
+                                name="{{ form.password.html_name }}">
+
+                            {% if form.password.errors %}
+                                <div class="form_field_error form-input-error">{{ form.password.errors|join:" " }}</div>
+                            {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-success" value="login">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+</div>
+{% endblock container %}

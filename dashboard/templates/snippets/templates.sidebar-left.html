@@ -1,0 +1,33 @@
+<div class="col-md-3">
+    <div class="accessible-files">
+        <div class="card">
+            <div class="card-header" role="tab" id="temp_heading">
+                <h5 class="mb-0">Template Files</h5>
+            </div>
+            
+            <div class="card-body">
+                <div class="btn-group-vertical" role="group">
+                    <a href="{% url 'dashboard:template' domain %}" class="btn btn-light text-left text-lowercase">base.html</a>
+                    
+                {% for page in page_list %}
+                    <a href="{% url 'dashboard:template' domain page.page_type page.page_name %}" class="btn btn-light text-left text-lowercase">{{ page.page_name }}.html</a>
+                {% endfor %}
+                
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Static Files</h5>
+            </div>
+            
+            <div class="card-body">
+                <div class="btn-group-vertical" role="group">
+                    <a href="{% url 'dashboard:static_files' site.domain 'css' 'style.css'%}" class="btn btn-light text-left text-lowercase">style.css</a>
+                    <a href="{% url 'dashboard:static_files' site.domain 'js' 'main.js'%}" class="btn btn-light text-left text-lowercase">main.js</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

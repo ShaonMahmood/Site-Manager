@@ -1,0 +1,143 @@
+{% lp_extends "base.html" %}
+{% load static  %}
+
+
+{% block container %}
+<div class="home-container" id="homeJS">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="home-content">
+                    <h1>
+                        {{ site_info.main_heading|default:"Insurance has never been this easy" }}
+                    </h1>
+                    <p class="subheading">
+                        {{ site_info.main_heading_sub|default:"Compare Affordable Health Insurance Plans" }}
+                    </p>
+
+                    <div class="zip-code-form clearfix">
+                        <input type="text" id="homeZipJS" placeholder="Enter Zip"/>
+                        <button class="btn" id="homeZipButtonJS"> See Plans</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="common-section">
+    <div class="container">
+        <div class="row">
+            <div class="col tc">
+                <h3 class="tu title-header">{{ abouttext.text|default:"About Us" }}</h3>
+                <p class="about-text">{{ abouttext.sub_text|default:""|safe }}</p>
+                <br/><br/><br/>
+            </div>
+        </div>
+
+        
+    {% for val in benefit.dataItem.values %}
+        
+        <div class="row">
+        
+        {% if forloop.counter|divisibleby:2 %}
+            <div class="col col-1-2">
+                <img src=
+                     "{% if val.feat_img %}
+                        {{ val.feat_img }}
+                    {% else %}
+                        {% site_static 'img/call-doctor.jpg' %}
+                    {% endif %}"
+                     class="benifit-img" alt="Benefit"/>
+            </div>
+        {% endif %}
+            
+        
+            <div class="col col-1-2">
+                <div class="key-benefits">
+                    <h3><span>0{{ forloop.counter }}</span>{{ val.title|default:"Insurance 101" }}</h3>
+                    <p>{{ val.detail|default:""|safe }}</p>
+                    <ul class="important-list">
+                     
+                        {% for v in val.values %}
+                            {% for vv in v.values %}
+                                <li>{{ vv.type_text }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    
+                    </ul>
+                </div>
+            </div>
+        
+        {% if not forloop.counter|divisibleby:2 %}
+            <div class="col col-1-2">
+                <img src=
+                     "{% if val.feat_img %}
+                        {{ val.feat_img }}
+                    {% else %}
+                        {% site_static 'img/health.jpg' %}
+                    {% endif %}"
+                     class="benifit-img" alt="Benefit"/>
+            </div>
+        {% endif %}
+        </div>
+        
+    {% endfor %}
+    
+    </div>
+</div>
+
+<div class="common-section">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3 class="tu tc">{{ whychoose.text|default:"Why chose us ?" }}</h3>
+                <p class="tc about-text">{{ whychoose.sub_slogan|default:""|safe }}</p>
+                <br/><br/>
+            </div>
+        </div>
+        <div class="row">
+        
+        {% for val in whychoose.dataItem.values %}
+            <div class="col col-1-4">
+                <div class="blue-box">
+                    <span class="box-icon fa {{ val.icon|default:"fa-lock" }}"></span>
+                    <h5>{{ val.title }}</h5>
+                    <p>{{ val.detail|default:""|safe }}</p>
+                </div>
+            </div>
+        {% endfor %}
+        
+        </div>
+    </div>
+</div>
+
+<div class="common-section common-section-np">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="seo-content-home">
+                    <div class="row">
+                        <div class="col col-70p">
+                            <h3>{{ insurancetext.text|default:"Insurance Content" }}</h3>
+                            <p>{{ insurancetext.sub_text|default:""|safe }}</p>
+
+                            <a href="" class="seePlansJs btn btn-base">SEE PLANS</a>
+                            <br/><br/>
+                        </div>
+                        <div class="col col-30p tc">
+                            <img src="
+                                    {% if insurancetext.featured_image %}
+                                        {{ insurancetext.featured_image.url }}
+                                    {% else %}
+                                         {% site_static 'img/lady-pointing.png' %}
+                                    {% endif %}"
+                                 class="mw100" alt=""/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock container %}

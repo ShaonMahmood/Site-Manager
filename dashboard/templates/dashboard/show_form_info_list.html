@@ -1,0 +1,62 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %}Site Form Data | {{ block.super }}{% endblock title %}
+
+{% block extra_css %}
+    <style>
+        .table td, .table th {text-align: center}
+    </style>
+{% endblock extra_css %}
+
+{% block header %}
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item active">Site Data</li>
+</ol>
+
+{% endblock header %}
+
+
+{% block container %}
+<div class="container">
+
+    <h2>Available Infos</h2>
+
+    <table class="table table-bordered">
+        <thead class="thead-default">
+            <tr>
+                <th>#</th>
+                <th>Domain Name</th>
+                <th>Zipcode</th>
+                <th>DOB</th>
+                <th>Gender</th>
+                <th>First Name</th>
+                <th>Last name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        {% for info in FormInfo %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ info.domain_name }}</td>
+                <td>{{ info.zipcode }}</td>
+                <td>{{ info.DOB }}</td>
+                <td>{{ info.gender }}</td>
+                <td>{{ info.firstname }}</td>
+                <td>{{ info.lastname }}</td>
+                <td>{{ info.email }}</td>
+            </tr>
+        {% endfor %}
+        
+        </tbody>
+    </table>
+
+
+
+
+</div>
+
+{% endblock container %}
+

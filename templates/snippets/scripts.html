@@ -1,0 +1,83 @@
+{% load landing_page_tags %}
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="{% site_static 'js/datepicker.min.js' %}"></script>
+<script src="{% site_static 'js/jquery.slicknav.min.js' %}"></script>
+<script src="{% site_static 'js/main.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<script>
+    $(document).ready(function () {
+
+        var loadform = function () {
+
+            console.log("loadform......");
+            var homeZip = parseInt($('#homeZipJS').val());
+            if (isNaN(homeZip) || homeZip.toString().length != 5) {
+                alert('Please Enter A valid ZIP Code')
+            }
+            else {
+                $('body').addClass('formOpenJS');
+                $('#InputZip').val(homeZip);
+            }
+        };
+
+
+        var saveform = function (event) {
+
+            {#            return false;#}
+
+            // get the form data
+            // there are many ways to get this data using jQuery (you can use the class or id also)
+
+            var formData = $(this);
+
+            console.log(formData.serializeArray());
+
+            console.log('the target url is ' + formData.attr("action"));
+
+            $(this).submit();
+
+            $('body').removeClass('formOpenJS');
+
+        };
+
+
+        var loadform1 = function (e) {
+            $('body').addClass('formOpenJS');
+            $('.partnerList').hide();
+            $('.formEl').show();
+            e.preventDefault();
+        };
+
+        var loadform2 = function (e) {
+            $('body').addClass('formOpenJS');
+            $('.formEl').hide();
+            $('.partnerList').show();
+            e.preventDefault();
+        };
+
+
+        $('#homeZipButtonJS').click(loadform);
+        console.log("calling loadform....");
+        //$('#dataForm').submit(saveform);
+        $('.seePlansJs').click(loadform1);
+
+        $('.seeComp').click(loadform2);
+
+        {#        $('#dataForm').submit(saveform);#}
+
+        $('.closeBtn').click(function () {
+            $('body').removeClass('formOpenJS');
+        });
+
+        $('[data-toggle="datepicker"]').datepicker();
+
+        //check if plans form has errors
+        var plans_form_errors = {% if plans_form.errors %}true{% else %}false{% endif %};
+        if (plans_form_errors) {
+            $('body').addClass('formOpenJS');
+        }
+
+    });
+</script>

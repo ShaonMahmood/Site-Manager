@@ -1,0 +1,75 @@
+<html {% block html_attrs %} {% endblock html_attrs %}>
+
+    <head>
+    {% block html_head %}
+        {% block meta_default %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Vimmaniac Pvt. Ltd.">
+        {% endblock meta_default %}
+
+        {% block meta_webmaster %}
+            {{ site_info.site_meta_webmaster|default:""|safe }}
+        {% endblock meta_webmaster %}
+
+        <meta name="description" content="{% block meta_description %}{{ page.meta_description }}{% endblock meta_description %}">
+        <meta name="keywords" content="{% block meta_keywords %}{{ page.meta_keywords }}{% endblock meta_keywords %}">
+
+        {% block meta %}{% endblock meta %}
+
+        {% block extra_meta %}{% endblock extra_meta %}
+        {% block gtm %}{% endblock gtm %}
+
+        <title>{% block title %}{{ page.get_page_title }}{% endblock title %}</title>
+
+        {% block css %}{% endblock css %}
+        {% block extra_css %}{% endblock extra_css %}
+        {% block analytics_js %}
+            {{ site_info.site_analytics_js|default:''|safe }}
+        {% endblock analytics_js %}
+        <style type="text/css">
+        .submit-btn-wrapper{
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
+        .submit-btn-wrapper .btn{
+            width: 230px;
+        }
+
+        .text_just{
+            text-align: justify;
+            color: black;
+        }
+
+        .div_box{
+            padding: 10px;
+            border: 3px;
+            margin: 0;
+        }
+        </style>
+
+    {% endblock html_head %}
+    </head>
+
+    <body {% block body_attrs %}{% endblock body_attrs %}
+            {% if success_msg %}
+            class="formOpenJS"
+        {% endif %}>
+    {% block body %}
+        {% block gtm_body %}{% endblock gtm_body %}
+        {% block header %}{% endblock header %}
+        {% block extra_header %}{% endblock extra_header %}
+        {% block container %}{% endblock container %}
+        {% block footer %}{% endblock footer %}
+        
+        {% block js %}{% endblock js %}
+        {% block extra_js %}{% endblock extra_js %}
+    {% endblock body %}
+    </body>
+
+</html>

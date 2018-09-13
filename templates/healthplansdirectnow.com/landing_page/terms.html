@@ -1,0 +1,45 @@
+{% lp_extends "base.html" %}
+
+{% block container %}
+
+    <!-- Main content Start-- -->
+        <div class="menu-container inner-menu">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <a href="index.html" class="logo">
+                            <img src="{% site_static 'img/logo.png' %}" alt=""/>
+                        </a>
+						<a class="header_phn_no aside_heading" href="tel:{{ site_info.phone_number }}">
+							<span class="fa fa-phone"></span>
+							{{ site_info.phone_number }}
+						</a>
+
+                        <ul class="main-menu-ul" id="mainMenu">
+                            <li><a href="{% url 'landing_page:index' %}">Home</a></li>
+                            <li><a href="{% url 'landing_page:index' %}#b102">Plan Info</a></li>
+                            <li><a href="{% url 'landing_page:index' %}#b101">benefits</a></li>
+                            <li><a href="#" class="seePlansJs">See Plans</a></li>
+                            <li><a class="header_phn_no" href="tel:{{ site_info.phone_number }}"><span
+                            class="fa fa-phone"></span> {{ site_info.phone_number }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="common-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="base-color tc">Terms and Conditions</h2>
+                        <ol class="policy-ul">
+                            {{ termsandprivacy.sub_text|default:"Items will be updated soon."|safe }}
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Main content End-- -->
+
+{% endblock container %}

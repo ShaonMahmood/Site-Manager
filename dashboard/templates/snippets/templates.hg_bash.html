@@ -1,0 +1,74 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/1.9.0/js/jquery.terminal.min.js"></script>
+<script src="http://terminal.jcubic.pl/js/unix_formatting.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/1.9.0/css/jquery.terminal.min.css" rel="stylesheet"/>
+
+
+<div id="term_demo"></div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#term_demo').terminal(function(command) {
+        var _t = this;
+        var x = {};
+        if (command !== '') {
+            console.log(command);
+            list = command.split(",");
+            if(list.length === 1){
+                x["command"] = list[0];
+
+            }
+            else if(list.length === 2){
+                console.log(list);
+                x["command"] = list[0].trim();
+                if(list[0] === "push"){
+                    x["password"] = list[1].trim();
+                }else{
+                    x["message"] = list[1].trim();
+                }
+            }
+            else if(list.length === 4){
+                x["command"] = list[0].trim();
+                x["username"] = list[1].trim();
+                x["fullname"] = list[2].trim();
+                x["email"] = list[3].trim();
+            }
+            else{
+                this.error(new String("command is not predicted"));
+                return;
+            }
+            try {
+
+                $.ajax({
+                url: '{% url 'hg_test' %}',
+                method: 'POST',
+                dataType: 'json',
+                data        : x,
+                beforeSend  : function(xhr) {xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));},
+                success: function (data) {
+                    console.log("ahsdasdasd");
+                    console.log(data.result);
+                    var i;
+                    for (i = 0; i < data.result.length; i++) {
+                        _t.echo(new String(data.result[i]));
+                    }
+                },
+                error: function (e) {
+                    console.log("errrrorrr");
+                    console.log(e);
+                }
+            });
+            } catch(e) {
+                this.error(new String(e));
+            }
+        } else {
+           this.echo('');
+        }
+    }, {
+        greetings: 'Custom Mercurial Interpreter(Available formats: check ; create,<username>,<fullname>,<email> ; status ; commit,<commit message> ; push, <password>)',
+        name: 'js_demo',
+        height: 200,
+        prompt: 'hg>'
+    });
+});
+</script>

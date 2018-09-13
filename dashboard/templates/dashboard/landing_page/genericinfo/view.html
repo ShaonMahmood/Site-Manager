@@ -1,0 +1,35 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}| {{ block.super }}{% endblock title %}
+
+{% block container %}
+
+
+<div class="container">
+    <h1>Generic Info</h1>
+
+    {% if genericinfo.count < configuration_details.num_row.default %}
+    <a href="{% url 'dashboard:site_settings_items' site.domain page_item.content_type.app_label page_item.content_type.model 'add' %}">
+        Add
+    </a>
+    {% endif %}
+    <table class="table table-bordered">
+        {% for info in genericinfo %}
+        <tr>
+            <td>{{ info.site_title }}</td>
+            <td>{{ info.phone_number }}</td>
+            <td>{{ info.main_heading }}</td>
+            <td>
+                <a href="{% url 'dashboard:site_settings_items' site.domain page_item.content_type.app_label page_item.content_type.model info.id 'change' %}">
+                    Change
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+</div>
+
+
+{% endblock container %}

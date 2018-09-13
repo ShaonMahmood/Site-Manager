@@ -1,0 +1,40 @@
+{% lp_extends "base.html" %}
+{% load static %}
+
+
+{% block container %}
+<div class="top-nav-slim inner-page">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <a href="{% url 'landing_page:index' %}" class="logo">
+                    <img src="{% site_static 'img/logo-white.png' %}" alt="Logo"/>
+                </a>
+
+                {% include 'snippets/page-link.html' %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="common-section">
+    <div class="container">
+        <div class="row">
+            <div class="col col-40p">
+                    <img src="
+                    {% if abouttext.featured_image %}
+                        {{ abouttext.featured_image.url }}
+                    {% else %}
+                        {% site_static 'img/amout-img.png' %}
+                    {% endif %}" class="mw100" alt=""/>
+                </div>
+                <div class="col col-60p">
+                    <br/><br/>
+                    <h2 class="secondary-color"> {{ abouttext.text|default:"Thanks" }}</h2>
+                    <p class="seo-text">{{ abouttext.sub_text|default:""|safe }}</p>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock container %}

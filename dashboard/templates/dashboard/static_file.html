@@ -1,0 +1,30 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}Static File - {{ template }} | {{ block.super }}{% endblock title %}
+
+{% block extra_css %} {% include 'snippets/templates.extra_css.html' %} {% endblock %}
+
+{%  block header %}{% include 'snippets/templates.header.html' with file_type="Static Files" %}{% endblock header %}
+
+{% block container %}
+
+<div class="container">
+
+    {% include 'snippets/templates.container_heading.html' %}
+
+    <div class="row">
+        
+        {% include 'snippets/templates.sidebar-left.html' %}
+        
+        {% include 'snippets/templates.file-editor.html' with file__type="Static File: " %}
+        
+    </div>
+</div>
+
+{% endblock container %}
+
+{% block extra_js %}
+    {% include 'snippets/templates.extra_js.html' %}
+    {% include 'snippets/templates.hg_bash.html' %}
+{% endblock %}

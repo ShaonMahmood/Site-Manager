@@ -1,0 +1,13 @@
+<p>
+    <a href="{% url 'dashboard:home' %}">
+        <span>←</span>
+        <span>back to dashboard</span>
+    </a>
+</p>
+<h5 style="margin-bottom: 30px">
+    Editing file from:&nbsp;
+    <span>
+        <a href="{% url 'dashboard:site_settings' domain %}" class="text-success">{{ site.domain }}</a>
+    </span>
+    <span><a href="{{ request.scheme }}://{{ site.domain }}" target="_blank">view website</a></span>
+</h5>

@@ -1,0 +1,49 @@
+{% load static %}
+
+<script type="text/javascript" src="{% static 'dashboard/js/codemirror.min.js' %}"></script>
+
+{% if app_label == 'css' %}
+    <script type="text/javascript" src="{% static 'dashboard/js/codemirror.css.min.js' %}"></script>
+{% elif app_label == 'js' %}
+    <script type="text/javascript" src="{% static 'dashboard/js/codemirror.js.min.js' %}"></script>
+{% else %}
+    <script type="text/javascript" src="{% static 'dashboard/js/codemirror.overlay.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/js/codemirror.xml.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/js/codemirror.django.min.js' %}"></script>
+{% endif %}
+
+<script type="text/javascript">
+    var editor = CodeMirror.fromTextArea(document.getElementById("dj_temp_editor"), {
+        lineNumbers: true,
+
+    {% if app_label == 'css' %}
+        mode:"text/css",
+    {% elif app_label == 'js' %}
+        mode:"text/javascript",
+    {% else %}
+        mode: "django",
+    {% endif %}
+    
+        indentUnit: 4,
+        indentWithTabs: true,
+    });
+    editor.setSize('100%', '70%');
+    
+    var input = document.getElementById("select");
+    function selectTheme() {
+        var theme = input.options[input.selectedIndex].textContent;
+        console.log(theme);
+        editor.setOption("theme", theme);
+        location.hash = "#" + theme;
+    }
+    var choice = (location.hash && location.hash.slice(1)) ||
+               (document.location.search && decodeURIComponent(document.location.search.slice(1)));
+    if (choice) {
+        input.value = choice;
+        editor.setOption("theme", choice);
+    }
+    CodeMirror.on(window, "hashchange", function() {
+        var theme = location.hash.slice(1);
+        if (theme) input.value = theme; selectTheme();
+    });
+</script>

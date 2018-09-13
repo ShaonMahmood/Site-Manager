@@ -1,0 +1,116 @@
+{% extends 'dashboard/base.html' %}
+
+{% load static %}
+
+{% block title %}{{ pageitem.content_type.model }} | {{ block.super }}{% endblock title %}
+
+{% block extra_css %}
+<style type="text/css">
+    .form-group:not(:last-child){margin-bottom: 2rem}
+    h2{margin-bottom: 3rem}
+</style>
+{% endblock %}
+
+{% block header %}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{% url 'dashboard:home' %}">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{% url 'dashboard:site_settings' domain %}">{{ site.domain }}</a>
+    </li>
+
+    <li class="breadcrumb-item">
+        <a href="{% url 'dashboard:site_settings' domain %}">{{ pagename }}</a>
+    </li>
+    <li class="breadcrumb-item active">Edit Page Item Info</li>
+
+</ol>
+
+{% endblock header %}
+
+{% block container %}
+
+<div class="container">
+
+    <div class="col-sm-12">
+        <h2>Edit content for {{ pageitem.content_type.model }}:
+            <a
+                target="_blank"
+                class="float-right"
+                href="{{ request.scheme }}://{{ site.domain }}{% if pagename != "index" %}/{{ pagename }}{% endif %}"
+            >View page</a>
+        </h2>
+        <form class="form" method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+        
+        {% if pageitem.content_type.model != "termsandprivacy" %}
+            <div class="form-group">
+                <label class="text-capitalize">upload image</label>
+                <div class="input-group col-xs-4">
+                    <div class="input-group-addon">
+                        <img style="height: 17px" src="{% static 'dashboard/img/img.png' %}" alt="img">
+                    </div>
+                    <div class="form-control feat_img_upload_file_name"></div>
+                    <label class="input-group-btn btn btn-primary text-capitalize" for="feat_img_upload">
+                        Browse
+                    </label>
+                    <input
+                            type="file"
+                            name="featured_image"
+                            class="form-control"
+                            id="feat_img_upload"
+                            value="{{ form.featured_image.value|default:'' }}"
+                            accept="image/*"
+                            style="display: none">
+                </div>
+            </div>
+            {% endif %}
+
+            
+            <div class="form-group">
+                <label for="id_text" class="text-capitalize">Heading/main text:</label>
+                <input type="text" class="form-control" name="text" id="id_text"
+                value="{{ form.text.value|default:'' }}"/>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_sub_text" class="text-capitalize">
+                {% if pageitem.content_type.model == "termsandprivacy" %}
+                    main content:
+                {% else %}
+                    detailed text Content:
+                {% endif %}
+                </label>
+                <textarea class="form-control html-editor" name="sub_text" id="id_sub_text"
+                >{{ form.sub_text.value|default:'' }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-success">Update</button>
+
+        </form>
+
+    </div>
+
+</div>
+{% endblock container %}
+
+{% block extra_js %}
+<script type="text/javascript">
+    var _output = $('.feat_img_upload_file_name');
+    var _input_data = $('#feat_img_upload');
+    
+    _output.html(_input_data.attr('value'));    //showing image name if there any
+    _input_data.change(function() {
+        var _t = $(this);
+        _output.html(_t[0].files[0].name);
+    });
+</script>
+
+
+{% include 'snippets/tinymce.html' %}
+
+
+{% endblock %}

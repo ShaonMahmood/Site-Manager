@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link type="text/css" rel="stylesheet" href="{% static 'dashboard/css/bootstrap.min.css' %}">
+<style type="text/css">
+    .btn{cursor: pointer}
+    .smooth-border-radius .card:not(:last-child) {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .smooth-border-radius .card:not(:first-child) {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    .header-right{
+        position: absolute;
+        top: 7px;
+        right: 7px;
+    }
+    .header-right .btn{
+        padding: .3rem .5rem;
+    }
+    label[for^="feat_img_upload"]{
+        font-size: 15px;
+        margin-bottom: 0;
+    }
+    textarea.form-control{height: 250px}
+    textarea.form-control {padding: 12px 20px}
+</style>
+{% endblock css %}
+
+{% block extra_css %}{% endblock extra_css %}
+
+{% block title %}Site Management{% endblock title %}
+
+{% block header %}{% endblock header %}
+
+{% block extra_header %}
+<div class="header-right">
+    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+</div>
+{% endblock extra_header %}
+
+{% block container %}{% endblock container %}
+{% block footer %}{% endblock footer %}
+
+
+{% block js %}
+<script type="text/javascript" src="{% static 'dashboard/js/jquery-3.2.1.slim.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/js/popper.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/js/bootstrap.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+{#{% include 'snippets/tinymce.html' %}#}
+{% endblock js %}
+
+{% block extra_js %}{% endblock extra_js %}

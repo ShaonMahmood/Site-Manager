@@ -1,0 +1,26 @@
+<div class="col-md-9">
+    <h3>
+        <span>{{ file__type }}</span>
+        <span style="font-family: monospace;font-style: italic">{{ template }}</span>
+    </h3>
+    <form class="form" method="POST">
+    
+    {% csrf_token %}
+        
+        <p>Select a theme:
+            <select onchange="selectTheme()" id="select">
+                <option selected="">default</option>
+                <option>monokai</option>
+            </select>
+        </p>
+        
+        <div class="form-group">
+            <textarea
+                    id="dj_temp_editor"
+                    class="form-control"
+                    rows="20"
+                    name="template">{{ form.template.value|default:'' }}</textarea>
+        </div>
+        <button type="submit" class="save btn btn-success" style="cursor: pointer">Save</button>
+    </form>
+</div>

@@ -1,0 +1,5 @@
+<form id="editor_file_upload" action="{% url 'texteditor:writing-fileupload' %}" target="upload_target"
+    method="post" enctype="multipart/form-data" style="display: none; width: 0; height: 0; overflow: hidden">
+    {% csrf_token %}
+    <input name="editorfile" type="file" onchange="$('#editor_file_upload').submit();this.value='';">
+</form>

@@ -1,0 +1,167 @@
+{% lp_extends "base.html" %}
+{% load static %}
+
+
+
+{% block container %}
+<div class="home-container" id="homeJS">
+    <div class="container">
+        <div class="row">
+            <div class="col col-1-2">
+                <div class="logo-container">
+                    <a href="{% url 'landing_page:index' %}">
+                        <img src="{% site_static 'img/logo-white.png' %}" alt="Logo"/>
+                    </a>
+                </div>
+                <div class="home-content">
+                    <h1>
+                        Looking for a clear & <br/>
+                        simple  Health insurance?
+                    </h1>
+                    <p class="subheading"> Compare Affordable Health Insurance Plans.</p>
+                    <p class="subheading">
+                        <small>
+                            <a href="tel:1651-419﻿-3200"><span class="fa fa-phone"></span> +1651-419﻿-3200</a> &nbsp; <a href="#"><span class="fa fa-envelope"></span> info@healthcare-plans.shop</a>
+                        </small>
+                    </p>
+                    <div class="zip-code-form clearfix">
+                        <input type="text" id="homeZipJS" placeholder="Enter Zip"/>
+                        <button class="btn" id="homeZipButtonJS"> See Plans</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="common-section">
+    <div class="container">
+        <div class="row">
+            <div class="col col-1-3">
+                <div class="key-benefits">
+                    <h3><span>01</span> Benifit one</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolores doloribus eius esse excepturi in iusto laborum odio quae quam quod ratione.
+                    </p>
+                    <ul class="important-list">
+                        <li> Lorem ipsum dolor sit amet,</li>
+                        <li> consectetur adipisicing elit.</li>
+                        <li> fugiat fugit laudantium perferendis</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col col-1-3">
+                <div class="key-benefits">
+                    <h3><span>02</span> Benifit two</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolores doloribus eius esse excepturi in iusto laborum odio quae quam quod ratione.
+                    </p>
+                    <ul class="important-list">
+                        <li> Lorem ipsum dolor sit amet,</li>
+                        <li> doloremque earum facilis fugiat</li>
+                        <li> fugiat fugit laudantium perferendis</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col col-1-3">
+                <div class="key-benefits">
+                    <h3><span>03</span> Benifit three</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolores doloribus eius esse excepturi in iusto laborum odio quae quam quod ratione.
+                    </p>
+
+                    <ul class="important-list">
+                        <li> fugiat fugit laudantium perferendis</li>
+                        <li> doloremque earum facilis fugiat</li>
+                        <li> fugiat fugit laudantium perferendis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="seo-content-home">
+                    <div class="row">
+                        <div class="col col-30p tc">
+                            <img src="{% site_static 'img/content-img.png' %}" class="mw100" alt=""/>
+                        </div>
+                        <div class="col col-70p">
+                            <h3>Insurance Content</h3>
+                            <p>
+                                Life turns on a dime. You have no idea when you’ll “need” insurance. That’s why it’s important to plan ahead.This information will help you figure out what types of insurance make sense for you.Lorem ipsum doller set amet ,dourem ipsumlourem set ameture lorem douler set emetu.Lorem ipsum doller set amet ,dourem ipsumlourem set ameture lorem douler set emetu.
+                            </p>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus, animi asperiores delectus dignissimos esse ex expedita facere hic, id magnam non omnis quam quisquam recusandae sunt tempore veritatis, voluptatem? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis, cum delectus dignissimos.
+                            </p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet assumenda blanditiis corporis cum ea est et eum ipsam.</p>
+
+                            <a href="" class="seePlansJs btn btn-base">SEE PLANS</a>
+                            <br/><br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="promo-text">
+        <h2>Affordable health Insurance For Every Situations</h2>
+    </div>
+</div>
+
+<div class="common-section">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3 class="tu tc">Why chose us ?</h3>
+                <p class="tc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, deleniti doloremque earum facilis fugiat fugit ipsa laudantium perferendis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa cumque deserunt distinctio dolore excepturi ipsum iste libero molestiae natus nihil officia quidem quo, repellat similique sint sit vitae voluptas voluptate.</p>
+                <br/><br/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-1-4">
+                <div class="blue-box">
+                    <span class="box-icon fa fa-lock"></span>
+                    <h5>SAFE &amp; SECURITY</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque eligendi excepturi fugit illum.</p>
+                </div>
+            </div>
+            <div class="col col-1-4">
+                <div class="blue-box">
+                    <span class="box-icon fa fa-heartbeat"></span>
+                    <h5>SAVING &amp; INVESTMENT</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque eligendi excepturi fugit illum.</p>
+                </div>
+            </div>
+            <div class="col col-1-4">
+                <div class="blue-box">
+                    <span class="box-icon fa fa-ambulance"></span>
+                    <h5>BUSINESS GOAL</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque eligendi excepturi fugit illum.</p>
+                </div>
+            </div>
+            <div class="col col-1-4">
+                <div class="blue-box">
+                    <span class="box-icon fa fa-medkit"></span>
+                    <h5>COMPLETE SATISFACTION</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque eligendi excepturi fugit illum.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="common-section">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3 class="tu title-header">About Insurance (SEO Text)</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aspernatur consequatur dolor dolorum ea enim facere, facilis fugit hic maxime nesciunt, pariatur, perferendis quaerat quidem tempore ut vel velit veniam! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta eaque et facilis itaque labore magnam molestiae obcaecati, perspiciatis, provident repellendus reprehenderit, sed sit temporibus. Animi at consequatur odit sit voluptatibus! Lorem ipsum dolor sit ui similique sunt suscipit velit voluptatem? Eaque, quasi?Lorem ipsum dolor sit amet, consectetur Aliquid cupiditate delectus doloremque dolorum enim eos, ex, fugit inventore nesciunt nihil nisi nobis optio quas qui quibusdam recusandae sint temporibus voluptatum?<br/><br/> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, asperiores, cumque, debitis deleniti dolorem inventore ipsam molestias nulla numquam officia quae repudiandae sequi similique sunt suscipit velit voluptatem?<br/><br/> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aspernatur consequatur dolor dolorum ea enim facere, facilis fugit hic maxime nesciunt, pariatur, perferendis quaerat quidem tempore ut vel velit veniam! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta eaque et facilis itaque labore magnam molestiae obcaecati, perspiciatis, provident repellendus reprehenderit, sed sit temporibus. Animi at consequatur odit sit voluptatibus!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, asperiores, cumque, debitis deleniti dolorem inventore ipsam molestias nulla numquam officia quae repudiandae sequi similique sunt suscipit velit voluptatem? Eaque, quasi?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid cupiditate delectus doloremque dolorum enim eos, ex, fugit inventore nesciunt nihil nisi nobis optio quas qui quibusdam recusandae sint temporibus voluptatum?</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock container %}

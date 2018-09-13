@@ -1,0 +1,21 @@
+{% lp_extends "base.html" %}
+{% load static %}
+
+
+{% block container %}
+
+{% include 'healthplansdirector.com/snippets/header.html' %}
+
+<div class="common-section">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="tu tc title-header">{{ termsandprivacy.text|default:"Terms and Condition" }}</h2>
+                <ol class="policy-ul">
+                    {{ termsandprivacy.sub_text|default:"Items will be updated soon."|safe }}
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock container %}

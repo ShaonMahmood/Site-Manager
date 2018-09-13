@@ -1,0 +1,511 @@
+{% extends 'dashboard/base.html' %}
+
+{% load static %}
+
+{% block title %} {{ itemtype }} | {{ block.super }}{% endblock title %}
+
+{% block extra_css %}
+    <style type="text/css">
+    textarea.form-control{height: 120px}
+    .each-complex-content {
+        border: 1px solid #047aff;
+        padding: 15px 25px ;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: inset 0 0 10px 0px #555;
+    }
+    </style>
+{% endblock %}
+
+{% block header %}
+    
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'dashboard:home' %}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'dashboard:site_settings' domain %}">{{ site.domain }}</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'dashboard:site_settings' domain %}">{{ pageitem.page.page_name }}</a>
+        </li>
+        <li class="breadcrumb-item active">Edit {{ itemtype|title }}</li>
+
+</ol>
+
+{% endblock header %}
+
+{% block container %}
+    <div class="container">
+        <div class="col-sm-12">
+            <h2>Edit content for {{ itemtype }}:
+            <a
+                target="_blank"
+                class="float-right"
+                href="{{ request.scheme }}://{{ site.domain }}{% if pagename != "index" %}/{{ pagename }}{% endif %}"
+            >View page</a>
+        </h2>
+            
+            <form class="form" method="post" id="dataform" enctype="multipart/form-data">
+                
+                {% csrf_token %}
+                
+                <div id="form_wrapper">
+                
+                    <div class="form-group">
+                        <label for="slogan">Heading:</label>
+                        <textarea class="form-control" id="slogan" placeholder="Enter Text here..">{{ slogan_text }}</textarea>
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="sub_slogan">Description:</label>
+                        <textarea class="form-control html-editor" id="sub_slogan" placeholder="Enter Text here..">{{ sub_slogan }}</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="text-capitalize">upload image</label>
+                        <div class="input-group col-xs-4">
+                            <div class="input-group-addon">
+                                <img style="height: 17px" src="{% static 'dashboard/img/img.png' %}" alt="img">
+                            </div>
+                        {% if featured_image %}
+                            <div class="input-group-addon" style="padding: 0">
+                                <img style="width: 40px" src="{{ featured_image.url }}" alt="">
+                            </div>
+                        {% endif %}
+                            <div class="form-control feat_img_upload_file_name">{{ featured_image }}</div>
+                            <label class="input-group-btn btn btn-primary text-capitalize" for="feat_img_upload">
+                                Browse
+                            </label>
+                            <input
+                                    type="file"
+                                    data-file=""
+                                    name="featured_image"
+                                    class="form-control"
+                                    id="feat_img_upload"
+                                    value="{{ featured_image }}"
+                                    accept="image/*"
+                                    style="display: none">
+                        </div>
+                    </div>
+                {% for key,val in mainContent.items %}
+                    <div class="each-complex-content">
+                        <h1 class="font-weight-bold text-primary counter">{{ forloop.counter }}</h1>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">i</span>
+                                    <input
+                                            type="text"
+                                            id="icon_{{ forloop.counter0 }}"
+                                            placeholder="Font-awesome icon(eg: fa-bars)"
+                                            class="form-control"
+                                            value="{{ val.icon }}">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">T</span>
+                                    <input
+                                            type="text"
+                                            id="title_{{ forloop.counter0 }}"
+                                            class="form-control"
+                                            placeholder="Title"
+                                            value="{{ val.title }}">
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="detail_{{ forloop.counter0 }}">Details:</label>
+                            <textarea
+                                    class="form-control html-editor"
+                                    id="detail_{{ forloop.counter0 }}"
+                                    placeholder="Enter Details here.."
+                            >{{ val.detail }}</textarea>
+                        </div>
+        
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <img style="height: 17px" src="{% static 'dashboard/img/img.png' %}" alt="img">
+                                </div>
+                            {% if val.feat_img %}
+                                <div class="input-group-addon" style="padding: 0">
+                                    <img style="width: 40px" src="{{ val.feat_img }}" alt="">
+                                </div>
+                            {% endif %}
+                                <div class="form-control feat_img_upload_file_name">
+                                    {{ val.feat_img|default:"Click to upload &#8594;" }}
+                                </div>
+                                <label
+                                        class="input-group-btn btn btn-primary text-capitalize"
+                                        for="feat_img_upload_main_{{ forloop.counter0 }}">Browse</label>
+                                <input
+                                    data-val="{{ val.feat_img }}"
+                                    type="file"
+                                    data-file=""
+                                    class="form-control"
+                                    id="feat_img_upload_main_{{ forloop.counter0 }}"
+                                    name="feat_img_upload_main_{{ forloop.counter0 }}"
+                                    accept="image/*"
+                                    style="display: none">
+                           </div>
+                        </div>
+                        
+                        <div class="form-row" id="complex-type_{{ forloop.counter0 }}">
+                        
+                        {% for k, v in val.type.items %}
+                            <div class="form-group col-md-6 complex-each-type">
+                                <div class="input-group">
+                                    <span class="input-group-addon">i</span>
+                                    <input
+                                        type="text"
+                                        data-icon=""
+                                        id=""
+                                        class="form-control"
+                                        placeholder="Font-awesome icon(eg: fa-bars)"
+                                        value="{{ v.type_icon }}">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 complex-each-type">
+                                <div class="input-group">
+                                    <span class="input-group-addon">T</span>
+                                    <input
+                                        type="text"
+                                        data-type=""
+                                        id=""
+                                        class="form-control"
+                                        placeholder="Type"
+                                        value="{{ v.type_text }}">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4 complex-each-type d-none">
+                                {% comment %}<div class="input-group col-xs-4">
+                                    <div class="input-group-addon">
+                                        <img style="height: 17px" src="{% static 'dashboard/img/img.png' %}" alt="img">
+                                    </div>
+                                    <div class="form-control feat_img_upload_file_name">
+                                        {{ v.type_img|default:"Click to upload &#8594;" }}
+                                    </div>
+                                    <label
+                                            data-file=""
+                                            class="input-group-btn btn btn-primary text-capitalize"
+                                            for="feat_img_upload_{{ forloop.parentloop.counter0 }}_{{ forloop.counter }}">Browse</label>
+                                    <input
+                                        type="file"
+                                        data-file=""
+                                        class="form-control"
+                                        id="feat_img_upload_{{ forloop.parentloop.counter0 }}_{{ forloop.counter }}"
+                                        value=""
+                                        accept="image/*"
+                                        style="display: none">
+                               </div>{% endcomment %}
+                           </div>
+                        {% endfor %}
+                        </div>
+    
+                        <div class="form-row">
+                            <button type="button" class="btn btn-outline-warning mr-auto" id="add-new-type_{{ forloop.counter0 }}">Add new type</button>
+                            <button type="button" class="btn btn-outline-danger rmv-content">Delete this content</button>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+                </div>
+                
+                <button class="btn btn-outline-warning add-new">
+                    Add new {{ itemtype }} item
+                </button>
+                <button type="submit" class="btn btn-success">Update</button>
+            
+            </form>
+            
+             <div id="json" style="margin-bottom: 200px;"></div>
+            
+        </div>
+    
+    </div>
+{% endblock container %}
+
+{% block extra_js %}
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+        var _dummy_counter1 = 0;
+        $('.form-row[id^="complex-type_"]').each(function () {
+            var _dummy_counter2 = 0;
+            $(this).find('.complex-each-type').each(function () {
+                var _t = $(this);
+                _t.find('input[data-file]').attr('id','feat_img_upload_'+_dummy_counter1+'_'+_dummy_counter2);
+                _t.find('label[data-file]').attr('for','feat_img_upload_'+_dummy_counter1+'_'+_dummy_counter2);
+                _dummy_counter2++;
+            });
+            _dummy_counter1++;
+        });
+        
+        uploaded_img_name();
+        DeleteContent ();
+        
+        function uploaded_img_name() {
+            {# img name showing in div #}
+            var _input_data = $('input[id^="feat_img_upload"]');
+            
+            _input_data.change(function() {
+                var _t = $(this);
+                _t.siblings('.feat_img_upload_file_name').html(_t[0].files[0].name);
+            });
+        }
+        
+        function DeleteContent (){
+            $('.rmv-content').unbind().click(function (e) {
+                e.preventDefault();
+                var _elem = $(this).closest('.each-complex-content');
+                _elem.remove();
+                var c = 0;
+                var changable_item_id_prefix = [
+                    "icon_",
+                    "title_",
+                    "detail_",
+                    "feat_img_upload_main_",
+                    "complex-type_",
+                    "add-new-type_"
+                ];
+                $('.each-complex-content').each(function () {
+                    var _this = $(this);
+                    for (var i=0; i<changable_item_id_prefix.length; i++){
+                        var x = changable_item_id_prefix[i];
+                        _this.find('[for^='+x+']').attr("for", x+c);
+                        _this.find('[id^='+x+']').attr("id", x+c);
+                        _this.find('.counter').html(c+1)
+                    }
+                    c++;
+                })
+            });
+        }
+        
+        function AddTypeClick(_count, _t) {
+            //var c = $('#complex-type_' +_count +' .complex-each-type').length;
+            var _type_html =
+                '<div class="form-group col-md-6 complex-each-type">'+
+                    '<div class="input-group">'+
+                        '<span class="input-group-addon">i</span>'+
+                        '<input '+
+                            'type="text" '+
+                            'data-icon="" '+
+                            'class="form-control" '+
+                            'placeholder="Font-awesome icon(eg: fa-bars)" ' +
+                            'value="">'+
+                    '</div>'+
+                '</div>' +
+                '<div class="form-group col-md-6 complex-each-type">' +
+                    '<div class="input-group">'+
+                        '<span class="input-group-addon">T</span>'+
+                        '<input '+
+                            'type="text" '+
+                            'data-type="" '+
+                            'class="form-control" '+
+                            'placeholder="Type" '+
+                            'value="">'+
+                    '</div>'+
+                '</div>' +
+                '<div class="form-group col-md-4 complex-each-type d-none">' +
+                    {% comment %}'<div class="input-group col-xs-4">' +
+                        '<div class="input-group-addon">' +
+                            '<img style="height: 17px" src="{% static 'dashboard/img/img.png' %}" alt="img">' +
+                        '</div>' +
+                        '<div class="form-control feat_img_upload_file_name">Click to upload &#8594;</div>' +
+                        '<label ' +
+                                'class="input-group-btn btn btn-primary text-capitalize" ' +
+                                'for="feat_img_upload_'+ _count + '_' + (c + 2) + '">Browse</label>' +
+                        '<input ' +
+                            'type="file" ' +
+                            'data-file="" '+
+                            'class="form-control" ' +
+                            'id="feat_img_upload_'+ _count +'_' + (c + 2) + '" ' +
+                            'value="" ' +
+                            'accept="image/*" ' +
+                            'style="display: none">' +
+                   '</div>' +{% endcomment %}
+               '</div>';
+            _t.parent().siblings('.form-row[id^="complex-type_"]').append(_type_html);
+            
+            uploaded_img_name();
+        }
+        
+        $('button[id^="add-new-type_"]').click(function (e) {
+            e.preventDefault();
+            AddTypeClick( 0, $(this) );
+        });
+        
+        $('.add-new').click(function (e) {
+            e.preventDefault();
+            var _count = $('.each-complex-content').length;
+            var _html =
+                '<div class="each-complex-content">' +
+                    '<h1 class="font-weight-bold text-primary counter">'+(_count+1)+'</h1>' +
+                    '<div class="form-row">' +
+                        '<div class="form-group col-md-6">' +
+                            '<div class="input-group">' +
+                                '<span class="input-group-addon">i</span>' +
+                                '<input ' +
+                                        'type="text"' +
+                                        'id="icon_'+ _count +'"' +
+                                        'placeholder="Font-awesome icon name(eg: fa-bars)"' +
+                                        'class="form-control"' +
+                                        'value="">' +
+                            '</div>' +
+                        '</div>' +
+                        
+                        '<div class="form-group col-md-6">' +
+                            '<div class="input-group">' +
+                                '<span class="input-group-addon">T</span>' +
+                                '<input ' +
+                                        'type="text" ' +
+                                        'id="title_'+ _count +'" ' +
+                                        'class="form-control" ' +
+                                        'placeholder="Title" ' +
+                                        'value="">' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+    
+                    '<div class="form-group">' +
+                        '<label for="detail_'+ _count + '">Details:</label>' +
+                        '<textarea class="form-control html-editor" id="detail_'+ _count + '" placeholder="Enter Details here.."></textarea>' +
+                    '</div>' +
+                    
+                    '<div class="form-group">' +
+                        '<div class="input-group">' +
+                            '<div class="input-group-addon">' +
+                                '<img style="height: 17px" src="{% static 'dashboard/img/img.png' %}" alt="img">' +
+                            '</div>' +
+                            '<div class="form-control feat_img_upload_file_name">Click to upload &#8594;</div>' +
+                            '<label ' +
+                                    'class="input-group-btn btn btn-primary text-capitalize" ' +
+                                    'for="feat_img_upload_main_' + _count + '">Browse</label>' +
+                            '<input ' +
+                                'type="file" ' +
+                                'data-file="" ' +
+                                'class="form-control" ' +
+                                'id="feat_img_upload_main_' + _count + '" ' +
+                                'name="feat_img_upload_main_' + _count + '" ' +
+                                'accept="image/*" ' +
+                                'style="display: none">' +
+                       '</div>' +
+                    '</div>' +
+                    
+                    '<div class="form-row" id="complex-type_'+ _count + '"></div>' +
+
+                    '<div class="form-row">' +
+                        '<button class="btn btn-outline-warning mr-auto" id="add-new-type_' + _count + '">Add new type</button>' +
+                        '<button class="btn btn-outline-danger rmv-content">Delete this content</button>' +
+                    '</div>' +
+                '</div>';
+            
+            $('#form_wrapper').append(_html);
+            
+            $('#add-new-type_' + _count).click(function (e) {
+                e.preventDefault();
+                AddTypeClick( _count, $(this)  );
+            });
+
+            uploaded_img_name();
+            
+            DeleteContent ();
+        });
+
+        var _json_data = {};
+        var c = 0;  //counter
+        $('#dataform').submit(function (e) {
+            e.preventDefault();
+            $('.each-complex-content').each(function () {
+                var _t = $(this);
+                var _icon = $('#icon_' + c).val();
+                var _title = $('#title_' + c).val();
+                var _detail = $('textarea#detail_' + c).val();
+                var _feat_img = '';
+                var tmp_img = $('#feat_img_upload_main_' + c);
+                if (tmp_img.attr('data-val')){
+                    _feat_img = tmp_img.attr('data-val')
+                }else {
+                    _feat_img = tmp_img.val();
+                }
+                var _each_data = {};
+                
+                _each_data["icon"] = _icon;
+                _each_data["title"] = _title;
+                _each_data["detail"] = _detail;
+                _each_data["feat_img"] = _feat_img;
+                _each_data['type'] = {};
+                
+                var _c = 0;
+                var c2 = 0; //2nd counter
+                
+                _t.find('.complex-each-type').each(function () {
+                    var _tt = $(this);
+                    if((c2%3) === 0){
+                        _each_data['type']['type_' + _c] = {};
+                        _each_data['type']['type_' + _c]['type_icon'] =  _tt.find('input[data-icon]').val();
+                    }
+                    else  if ((c2%3) === 1)
+                        _each_data['type']['type_' + _c]['type_text'] =  _tt.find('input[data-type]').val();
+                    else{
+                        _each_data['type']['type_' + _c]['type_img'] =  _tt.find('input[data-file]').val();
+                        _c++;
+                    }
+                    c2++;
+                });
+                
+                _json_data["item_" + c] = _each_data;
+                c++;
+            });
+            _json_data["slogan"] = $('#slogan').val();
+            _json_data["sub_slogan"] = $('#sub_slogan').val();
+            //_json_data["feat_img_upload"] = $('#feat_img_upload').val();
+            _json_data = JSON.stringify(_json_data);
+
+            var dataf = new FormData($('form').get(0));
+            dataf.append('jsoni', _json_data);
+            
+            $.ajax({
+                type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+                url         : '{% url 'dashboard:form2_data_add' domain pageitem.page.page_name pageitem.content_type.model pageitem.id %}', // the url where we want to POST
+                data        : dataf,
+                beforeSend  : function(xhr) {xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));},
+                dataType    : 'json', // what type of data do we expect back from the server
+                encode      : true ,
+                cache       : false,
+                processData : false,
+                contentType : false,
+                success     : function (data) {
+                    console.log("success");
+                    {% comment %}window.location = "{{ request.scheme }}://{{ request.get_host }}{% url 'dashboard:site_settings' domain %}";{% endcomment %}
+                    alert("Items Updated");
+                    location.reload();
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    console.log("error");
+                }
+            });
+
+            $('#json').html(_json_data);
+        });
+
+        {% comment %}
+        //auto preview font awesome (need work)
+        $('input[name="icon"]').each(function(){
+            var t = $(this);
+            t.change(function(){
+                console.log(t.siblings('span'));
+                t.siblings('span').html('<i class="fa ' + t.val() +'></i>');
+            });
+        });{% endcomment %}
+
+    });
+</script>
+
+{% include 'snippets/tinymce.html' %}
+{% endblock %}

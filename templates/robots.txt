@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /static/admin
+Disallow: /static/dashboard
+Disallow: /static/{{ sitedomain }}/
+Disallow: /static/images/
+
+
+Sitemap: http://{{sitedomain}}/sitemap.xml

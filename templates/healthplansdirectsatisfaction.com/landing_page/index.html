@@ -1,0 +1,122 @@
+{% lp_extends "base.html" %}
+{% load static %}
+
+
+{% block container %}
+<div class="home-container">
+    <div class="container">
+        <div class="row">
+            <div class="col col-1-2">
+                <div class="home-content">
+                    <h1>
+                        <span>Welcome to our</span>
+                        {{ site_info.main_heading|default:"healthplans Insurance site" }}
+                    </h1>
+                    <p class="subheading">{{ site_info.main_heading_sub|default:"Compare Affordable Health Insurance Plans"|safe }}</p>
+                    <div class="zip-code-form clearfix">
+                        <input type="text" id="homeZipJS" placeholder="Enter ZIP"/>
+                        <button class="btn" id="homeZipButtonJS"> See Plans <span class="fa fa-paper-plane"></span>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <br/>
+                            <a href="tel:{{ site_info.phone_number|default:"" }}" class="call-us">
+                                Call Us: {{ site_info.phone_number|default:"" }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-1-2">
+                <div class="tc hide-sm">
+                    <img src="{% site_static 'img/topbg.png' %}" class="top-home-image" alt=""/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="common-section st-bg-2"
+
+ {% if benefit.featured_image %}
+     style="background-image: url({{ benefit.featured_image.url }})"
+ {% endif %}
+
+>
+    <div class="container">
+        <div class="row">
+            <div class="col col-1-2">
+                <br/>
+                <h2>{{ benefit.text|default:"Key benefits" }}</h2>
+                <ul class="key-benefits-ul">
+                
+                {% for val in benefit.dataItem.values %}
+                    <li>
+                        <span class="key-number">0{{ forloop.counter }}</span>
+                        <p>{{ val.detail|default:""|safe }}</p>
+                    </li>
+                {% endfor %}
+                
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="common-section st-bg-1">
+    <div class="container">
+        <div class="row">
+            <div class="col col-1-2">
+                <div class="tc">
+                    <ul class="insurance-type">
+                    
+                    {% for val in insurancetype.dataItem.values %}
+                        <li class="seePlansJs">
+                            <span class="icon-insurance fa {{ val.icon|default:"fa-clock-o" }}"></span>
+                            <p>
+                                {{ val.title|default:"Short-term" }}
+                                <span>{{ val.detail|default:"Insurance"|safe }}</span>
+                            </p>
+                        </li>
+                    {% endfor %}
+                    
+                    </ul>
+                </div>
+            </div>
+            <div class="col col-1-2">
+                <br/>
+                <h2>{{ abouttext.text|default:"About Insurance" }}</h2>
+                <p class="tj">{{ abouttext.sub_text|default:""|safe }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="common-section">
+    <div class="container bdr-cls">
+        <div class="row">
+            <div class="col tc">
+                <h2>{{ whychoose.text|default:"Why you should chose an insurance plan ?" }}</h2>
+                <p>{{ whychoose.sub_slogan|default:""|safe }}</p>
+                <a href="" class="btn btn-base seePlansJs">SEE PLANS</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="key-features-section">
+    <div class="container">
+        <div class="row">
+        
+        {% for val in feature.dataItem.values %}
+            <div class="col col-1-4">
+                <div class="key-features">
+                    <h4>{{ val.Heading|default:"Health Insurance Key Terms" }}</h4>
+                    <p>{{ val.Content|default:""|safe }}</p>
+                    <a href="" class="seePlansJs">See Plans</a>
+                </div>
+            </div>
+        {% endfor %}
+        
+        </div>
+    </div>
+</div>
+{% endblock container %}

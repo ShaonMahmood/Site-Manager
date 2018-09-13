@@ -1,0 +1,359 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}{{ site.domain }} Settings | {{ block.super }}{% endblock title %}
+
+{% block extra_css %}
+<style type="text/css">
+    .inline-input-group .input-group-addon {
+        background: #fffeee;
+        border: 1px solid #ead7af;
+        border-right: 1px solid #ead7af !important;
+    }
+    
+    .inline-input-group .input-group .form-control {
+        border-left: 0;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block header %}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{% url 'dashboard:home' %}">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">{{ site.domain }}</li>
+</ol>
+
+{% endblock header %}
+
+
+{% block container %}
+
+<div class="container inline-input-group">
+    <h1>Site Settings
+        <a
+            target="_blank"
+            class="float-right"
+            href="{{ request.scheme }}://{{ site.domain }}{% if pagename != "index" %}/{{ pagename }}{% endif %}"
+        >View page</a>
+    </h1>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <h4 class="card-header alert alert-primary">Site Information</h4>
+                <div class="card-body">
+                
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="site_title">Title:</span>
+                            <input
+                                    readonly
+                                    title=""
+                                    type="text"
+                                    class="form-control"
+                                    aria-describedby="site_title"
+                                    value="{{ site_info.site_title|default:"" }}"
+                            >
+                        </div>
+                    </div>
+                
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="site_phn_numb">Phone Number:</span>
+                            <input
+                                    readonly
+                                    title=""
+                                    type="text"
+                                    class="form-control"
+                                    aria-describedby="site_phn_numb"
+                                    value="{{ site_info.phone_number|default:"" }}"
+                            >
+                        </div>
+                    </div>
+                
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="site_email">Email Address:</span>
+                            <input
+                                    readonly
+                                    title=""
+                                    type="text"
+                                    class="form-control"
+                                    aria-describedby="site_email"
+                                    value="{{ site_info.email_id|default:"" }}"
+                            >
+                        </div>
+                    </div>
+                
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="site_main_heading">Main Heading:</span>
+                            <input
+                                    readonly
+                                    title=""
+                                    type="text"
+                                    class="form-control"
+                                    aria-describedby="site_main_heading"
+                                    value="{{ site_info.main_heading|default:"" }}"
+                            >
+                        </div>
+                    </div>
+                
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="site_main_sub_heading">Sub Heading:</span>
+                            <input
+                                readonly
+                                title=""
+                                type="text"
+                                class="form-control"
+                                aria-describedby="site_main_sub_heading"
+                                value="{{ site_info.main_heading_sub|default:"" }}"
+                            >
+                        </div>
+                    </div>
+                
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="site_meta_webmaster">Site Meta Webmaster:</span>
+                            <input
+                                    readonly
+                                    title=""
+                                    type="text"
+                                    class="form-control"
+                                    aria-describedby="site_meta_webmaster"
+                                    value="{{ site_info.site_meta_webmaster|default:"" }}"
+                            >
+                        </div>
+                    </div>
+                
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="site_analytics_js">Site Analytics JS:</span>
+                            <input
+                                    readonly
+                                    title=""
+                                    type="text"
+                                    class="form-control"
+                                    aria-describedby="site_analytics_js"
+                                    value="{{ site_info.site_analytics_js|default:"" }}"
+                            >
+                        </div>
+                    </div>
+                
+                {% if request.user.is_admin %}
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="site_base_template">Base Template:</span>
+                            <span class="form-control" aria-describedby="site_base_template">
+                                <a href="{% url 'dashboard:template' domain %}">base.html</a>
+                            </span>
+                        </div>
+                    </div>
+                {% endif %}
+
+                </div>
+
+                <div class="card-footer text-muted">
+                    <a href="{% url 'dashboard:edit_site_info' domain %}" class="btn btn-success">
+                        Edit
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <h4 class="card-header alert alert-primary">Pages</h4>
+
+                <div class="card-body">
+
+                {% for page in list_of_pages %}
+                    <div class="row page-based-item">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        {{ page.get_page_type_display }} -
+                                        {{ page.get_page_name_display }}
+                                    </h4>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="site_page_title">Page Title:</span>
+                                        
+                                            <span readonly class="form-control" aria-describedby="site_page_title">
+                                            {% if page.get_page_name_display != 'Home' %}
+                                                
+                                                {% if page.title %} {{ page.title }}
+                                                {% else %} {{ page.get_page_name_display }} {% endif %}
+                                                
+                                                {{ site_info.title_separator }}
+                                            {% endif %}
+                                                {{ page.get_page_title }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="site_meta_desc">Meta Description:</span>
+                                            <span readonly class="form-control" aria-describedby="site_meta_desc">
+                                                {{ page.meta_description|default:"empty" }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="site_meta_key">Meta Keywords:</span>
+                                            <span readonly class="form-control" aria-describedby="site_meta_key">
+                                                {{ page.meta_keywords|default:"empty" }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                {% if request.user.is_admin %}
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="site_template_page_{{ forloop.counter }}">Template:</span>
+                                            <span class="form-control" aria-describedby="site_template_page_{{ forloop.counter }}">
+                                                <a href="{% url 'dashboard:template' domain page.page_type page.page_name %}">
+                                                    {{ page.page_type }}/{{ page.page_name }}.html
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+
+                                {% for pageitem in page.pageitem_set.all %}
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="site_pageitem_{{ forloop.counter }}">
+                                                {{ pageitem.content_type.model }}
+                                            </span>
+                                            <span class="form-control" aria-describedby="site_pageitem_{{ forloop.counter }}">
+                                                <a href="{% url 'dashboard:edit_page_item' domain page.page_name pageitem.content_type.model pageitem.id %}">
+                                                    {{ pageitem.content_object.instance_name }}
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                    <a
+                                        href="{% url 'dashboard:edit_page' domain page.page_name %}"
+                                        class="btn btn-success">
+                                        Edit
+                                    </a>
+                                    
+                                {% if request.user.is_admin %}
+                                    <a
+                                        href="{% url 'dashboard:available' domain page.page_name %}"
+                                        class="btn btn-warning">
+                                            Add Items
+                                    </a>
+                                {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <hr>
+    
+{% if request.user.is_admin %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <h4 class="card-header alert alert-primary">Static Files</h4>
+                
+                <div class="card-body">
+                    
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Static Files - CSS</h4>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="site_css_file">File:</span>
+                                            <span class="form-control" aria-describedby="site_css_file">
+                                                <a href="{% url 'dashboard:static_files' domain 'css' 'style.css' %}">
+                                                    style.css
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Static Files - JS</h4>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="site_css_file">File:</span>
+                                            <span class="form-control" aria-describedby="site_css_file">
+                                                <a href="{% url 'dashboard:static_files' domain 'js' 'main.js' %}">
+                                                    main.js
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>  <!-- card-body -->
+            </div>  <!-- card -->
+        </div>  <!-- col-sm-12 -->
+    </div>  <!-- row -->
+{% endif %}
+
+
+    <table class="table table-bordered">
+        {% for available_content in available_contents %}
+        <tr>
+            <td>
+                {% if available_content.model in page_items_models %}
+                    <a href="{% url 'dashboard:site_settings_items' domain available_content.app_label available_content.model %}">
+                        {{ available_content.model_class_verbose_name }}
+                    </a>
+                {% else %}
+                    {{ available_content.model_class_verbose_name }}
+                {% endif %}
+            </td>
+            <td>
+                {% if available_content.model in page_items_models %}
+                    Activated
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>
+                {% if available_content.model_class_has_configuration %}
+                Configure
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock container %}

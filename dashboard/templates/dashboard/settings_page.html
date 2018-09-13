@@ -1,0 +1,22 @@
+{% extends 'dashboard/base.html' %}
+
+{% block header %}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{% url 'dashboard:home' %}">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{% url 'dashboard:site_settings' domain %}">{{ site.domain }}</a>
+    </li>
+    <li class="breadcrumb-item active">
+        {{ page.get_page_type_display }} - {{ page.get_page_name_display }}
+    </li>
+</ol>
+
+{% endblock header %}
+
+{% block container %}
+
+{% endblock container %}
+

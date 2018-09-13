@@ -1,0 +1,78 @@
+{% extends 'dashboard/base.html' %}
+
+{% block header %}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{% url 'dashboard:home' %}">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{% url 'dashboard:site_settings' domain %}">{{ site.domain }}</a>
+    </li>
+    <li class="breadcrumb-item active">Edit Site Info</li>
+
+</ol>
+
+{% endblock header %}
+
+{% block container %}
+
+<div class="container">
+
+    <div class="col-sm-12">
+        
+        <h2>Edit basic settings:
+            <a
+                target="_blank"
+                class="float-right"
+                href="{{ request.scheme }}://{{ site.domain }}"
+            >View page</a>
+        </h2>
+
+        <form class="form" method="post">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="id_site_title">Site title:</label>
+                <input class="form-control" name="site_title" value="{{ form.site_title.value|default:'' }}" id="id_site_title"/>
+            </div>
+
+            <div class="form-group">
+                <label for="id_phone_number">Phone number:</label>
+                <input type="text" class="form-control" name="phone_number" value="{{ form.phone_number.value|default:'' }}" maxlength="20" id="id_phone_number" />
+            </div>
+
+            <div class="form-group">
+                <label for="id_email_id">Email id:</label>
+                <input type="email" class="form-control" name="email_id" value="{{ form.email_id.value|default:'' }}" maxlength="254" id="id_email_id" />
+            </div>
+
+            <div class="form-group">
+                <label for="id_main_heading">Main heading:</label>
+                <textarea class="form-control" name="main_heading" id="id_main_heading">{{ form.main_heading.value|default:'' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="id_main_heading_sub">Main heading sub:</label>
+                <textarea class="form-control" name="main_heading_sub" id="id_main_heading_sub">{{ form.main_heading_sub.value|default:'' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="id_site_meta_webmaster">Site Meta Webmaster:</label>
+                <textarea class="form-control" name="site_meta_webmaster" id="id_site_meta_webmaster">{{ form.site_meta_webmaster.value|default:'' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="id_site_analytics_js">Site Analytic JS:</label>
+                <textarea class="form-control" name="site_analytics_js" id="id_site_analytics_js">{{ form.site_analytics_js.value|default:'' }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update</button>
+
+        </form>
+
+    </div>
+
+</div>
+{% endblock container %}

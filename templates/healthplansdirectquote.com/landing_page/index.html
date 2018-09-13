@@ -1,0 +1,179 @@
+{% lp_extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<style type="text/css">
+	.blog-container h5{font-size:21px;margin-top:20px;text-align:center}
+	.feature-container>i{margin-bottom: 15px;color: #282761;font-size: 45px;display: block;text-align: center}
+	.feature-container>h5{text-align:center;font-size:21px}
+	
+</style>
+{% endblock %}
+
+{% block container %}
+    <div class="home-container-wrapper">
+        <div class="home-container">
+            <div class="menu-container">
+                
+                {% lp_include 'snippets/header-nav.html' %}
+                
+            </div>
+            
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h1>{{ site_info.main_heading|default:"healthplans Insurance" }}</h1>
+                        <p class="subheading">{{ site_info.main_heading_sub|default:"Compare Affordable Health Insurance Plans"|safe }}</p>
+                        <div class="zip-code-form clearfix">
+                            <input type="number" pattern="[0-9]*" id="homeZipJS" placeholder="Enter Zip"/>
+                            <button class="btn" id="homeZipButtonJS"> See Plans</button>
+                        </div>
+						<div>
+							<h3 style="font-size: 21px;padding-top:36px">Short Term Insurance are available year-round and an affordable alternative to ACA or Obamacare</h3>
+		       			</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="partner-logo">
+        <ul>
+            <li>
+                <a href="#" target="_blank">
+                    <img src="{% site_static 'img/logo-1.png' %}" alt=""/>
+                </a>
+            </li>
+            <li>
+                <a href="#" target="_blank">
+                    <img src="{% site_static 'img/logo-2.png' %}" alt=""/>
+                </a>
+            </li>
+            <li>
+                <a href="#" target="_blank">
+                    <img src="{% site_static 'img/logo-3.png' %}" alt=""/>
+                </a>
+            </li>
+            <li>
+                <a href="#" target="_blank">
+                    <img src="{% site_static 'img/logo-4.png' %}" alt=""/>
+                </a>
+            </li>
+            <li>
+                <a href="#" target="_blank">
+                    <img src="{% site_static 'img/logo-5.png' %}" alt=""/>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="common-section" id="benefit">
+        <div class="container">
+            <div class="row">
+                <div class="col col-30p">
+                    <h2 class="tc-sm secondary-color">{{ benefit.text|default:"Benefits of HealthPlans"|safe }}</h2>
+                </div>
+                <div class="col col-70p">
+                    <p>{{ benefit.sub_slogan|safe }}</p>
+
+                    <a href="#" class="btn btn-lg btn-base-o seePlansJs">LEARN MORE</a>
+
+                    <br/><br/>
+                </div>
+            </div>
+
+            <div class="row" id="service">
+
+                {% for val in benefit.dataItem.values %}
+                    <div class="col col-1-4">
+                    <div class="feature-container">
+
+                        <i class="{{ val.icon }}"></i>
+
+                        <h5 class="secondary-color">{{ val.title|safe }}</h5>
+                        <div>{{ val.detail|default:""|safe }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="about-us" id="about-us">
+        <div class="container">
+            <div class="row">
+                <div class="col col-40p">
+                    <img src="
+                    {% if abouttext.featured_image %}
+                        {{ abouttext.featured_image.url }}
+                    {% else %}
+                        {% site_static 'img/amout-img.png' %}
+                    {% endif %}" class="mw100" alt=""/>
+                </div>
+                <div class="col col-60p">
+                    <br/><br/>
+                    <h2 class="secondary-color"> {{ abouttext.text|default:"About HealthPlans" }}</h2>
+                    <p class="seo-text">{{ abouttext.sub_text|default:""|safe }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sp-offer">
+        <div class="container">
+            <div class="row">
+                <div class="col tc">
+                    <h2 class="white-color">SPECIAL OFFER</h2>
+                    <h5 class="white-color">If you order insurance plan in next Month</h5>
+
+                    <a href="" class="btn btn-lg btn-base seePlansJs">Find Plans</a>
+
+                    <br/><br/>
+                    <p class="countdowntime" id="countdown">
+                        <strong class="days timenumbers">05</strong>
+                        <span class="timeRefDays timedescription"> Days </span>
+                        
+                        <strong class="hours timenumbers">04</strong>
+                        <span class="timeRefHours timedescription"> Hours </span>
+                        
+                        <strong class="minutes timenumbers">20</strong>
+                        <span class="timeRefMinutes timedescription"> Minutes </span>
+                        
+                        <strong class="seconds timenumbers">20</strong>
+                        <span class="timeRefSeconds timedescription"> Seconds </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="common-section" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col tc">
+                    <h2 class="secondary-color">{{ whychoose.text|default:"About HealthPlans" }}</h2>
+                    <p>
+                        {{ whychoose.sub_slogan|default:""|safe }} </p>
+                </div>
+            </div>
+            <div class="row">
+
+                {% for val in whychoose.dataItem.values %}
+
+                    <div class="col col-1-3">
+                    <div class="blog-container">
+                        <img src="{{ val.feat_img }}" class="mw100" alt=""/>
+                        <a href="" class="secondary-color"><h5>{{ val.title|default:"Understanding key health insurance terms"|safe }}</h5></a>
+                        <p>{{ val.detail|default:""|safe }}</p>
+                        <a href="#" class="btn btn-lg btn-base-o seePlansJs">More Info</a>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+{% endblock container %}

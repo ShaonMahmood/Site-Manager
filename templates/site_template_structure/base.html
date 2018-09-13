@@ -1,0 +1,67 @@
+{# landing page no. 07 #}
+
+{% extends 'base.html' %}
+{% load landing_page_tags %}
+
+
+{% block meta_default %}
+    {% include 'snippets/meta-default.html' %}
+{% endblock meta_default %}
+
+
+{% block title %}healthcare-plans.shop{% endblock title %}
+
+
+{% block css %}
+    {% include 'snippets/css-link.html' %}
+{% endblock css %}
+
+
+{% block header %}
+    <div class="top-nav">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <a href="{% url 'landing_page:index' %}" class="logo">
+                        <img src="{% site_static 'img/logo.png' %}" alt="Logo"/>
+                    </a>
+    
+                    <ul class="nav-slim-right">
+                        <li><a href="{% url 'landing_page:index' %}">Home</a></li>
+                        <li><a href="{% url 'landing_page:index' 'privacy' %}">Privacy</a></li>
+                        <li><a href="{% url 'landing_page:index' 'terms' %}">Terms</a></li>
+                        <li><a href="#" class="seePlansJs">See Plans</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+
+{% block container %}{% endblock container %}
+
+
+{% block footer %}
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <ul class="footer-ul">
+                        <li>&copy; healthcare-plans.shop 2017, All rights reserved.</li>
+                        <li><a href="{% url 'landing_page:index' 'terms' %}">Terms &amp; Conditions</a></li>
+                        <li><a href="{% url 'landing_page:index' 'privacy' %}">Privacy & Policy</a></li>
+                        <li><a href="#homeJS" class="msScrollTo"><span class="fa fa-arrow-up"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'snippets/quote-form.html' %}
+{% endblock footer %}
+
+
+{% block js %}
+    {% include 'snippets/scripts.html' %}
+{% endblock js %}

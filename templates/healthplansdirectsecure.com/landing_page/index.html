@@ -1,0 +1,118 @@
+{% lp_extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ site_info.site_title }}{% endblock title %}
+
+{% block css %}
+    {{ block.super }}
+    <style type="text/css">
+        .key-benefits-ul li:nth-child(2n+1){clear: both}
+        .key-benefits-ul>li>p:nth-child(2){margin-top:0}
+    </style>
+{% endblock css %}
+
+{% block container %}
+<div class="home-container" id="homeJS">
+    <div class="home-container-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col col-1-2">
+                    <div class="home-content">
+                        <h1>
+                            {{ site_info.main_heading|default:"healthplans Insurance site" }}
+                        </h1>
+                        <p class="subheading">{{ site_info.main_heading_sub|default:"Compare Affordable Health Insurance Plans" }}</p>
+                        <div class="zip-code-form clearfix">
+                            <input type="text" id="homeZipJS" placeholder="Enter Zip"/>
+                            <button class="btn" id="homeZipButtonJS"> See Plans <i class="fa fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-1-2">
+                    <div class="home-content">
+                        <span class="call-icon fa fa-phone"></span>
+                        <p class="call-us-p">
+                            <span>For more details</span>
+                            CALL US
+                        </p>
+                        <h3><a class="call-us-number" href="tel:{{ site_info.phone_number|default:"" }}">
+                            {{ site_info.phone_number|default:"" }}
+                        </a></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="common-section">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="tu tc title-header">{{ insurancetype.text|default:"Type of Insurance" }}</h2>
+            </div>
+            <div class="col">
+                <ul class="insurance-type">
+                
+                {% for val in insurancetype.dataItem.values %}
+                     <li class="seePlansJs">
+                        <span class="icon-insurance fa {{ val.icon|default:"fa-clock-o" }}"></span>
+                        <p>
+                            {{ val.title|default:"Short-term" }}
+                            <span>{{ val.detail|default:"Insurance"|safe }}</span>
+                        </p>
+                    </li>
+                {% endfor %}
+                
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="common-section">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="tu tc title-header">{{ benefit.text|default:"Key benefits of Insurance" }}</h2>
+            </div>
+            <div class="col">
+                <ul class="key-benefits-ul">
+                
+                {% for val in benefit.dataItem.values %}
+                    <li>
+                        <span class="key-number">0{{ forloop.counter }}</span>
+                        <p>{{ val.detail|default:""|safe }}</p>
+                    </li>
+                {% endfor %}
+                
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="common-section">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="tu tc title-header">{{ abouttext.text|default:"About Insurance" }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-1-2">
+                <p>{{ abouttext.sub_text|default:""|safe }}</p>
+            </div>
+            <div class="col col-1-2">
+                <img src="
+                    {% if abouttext.featured_image %}
+                        {{ abouttext.featured_image.url }}
+                    {% else %}
+                        {% site_static 'img/about.jpg' %}
+                    {% endif %}"
+                     class="w100" alt=""/>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock container %}

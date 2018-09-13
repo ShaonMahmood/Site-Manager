@@ -1,0 +1,29 @@
+
+{% lp_extends "base.html" %}
+{% load static %}
+
+
+{% block container %}
+
+{% include 'healthplansdirector.com/snippets/header.html' %}
+
+<div class="common-section">
+    <div class="container">
+        <div class="row">
+            <div class="col col-40p">
+                    <img src="
+                    {% if abouttext.featured_image %}
+                        {{ abouttext.featured_image.url }}
+                    {% else %}
+                        {% site_static 'img/amout-img.png' %}
+                    {% endif %}" class="mw100" alt=""/>
+                </div>
+                <div class="col col-60p">
+                    <br/><br/>
+                    <h2 class="secondary-color"> {{ abouttext.text|default:"Thanks" }}</h2>
+                    <p class="seo-text">{{ abouttext.sub_text|default:""|safe }}</p>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock container %}

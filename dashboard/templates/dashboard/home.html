@@ -1,0 +1,108 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %}Dashboard | {{ block.super }}{% endblock title %}
+
+{% block extra_css %}
+    <style>
+        .table td, .table th {text-align: center}
+    </style>
+{% endblock extra_css %}
+
+{% block header %}
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item active">Dashboard</li>
+</ol>
+
+{% endblock header %}
+
+
+{% block container %}
+<div class="container">
+
+    <h2>Available Sites</h2>
+
+    <table class="table table-bordered">
+        <thead class="thead-default">
+            <tr>
+                <th>#</th>
+                <th>Site Title</th>
+                <th>Updated</th>
+                <th>View Site</th>
+                <th>Edit Content</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        {% for site in sites %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ site.siteinfo_set.get.site_title }}</td>
+                <td class="js_time_diff_text" data-time="{{ site.siteinfo_set.get.date_edited }}"></td>
+                <td><a href="{{ request.scheme }}://{{ site.domain }}" target="_blank">{{ site.domain }}</a></td>
+                <td><a href="{% url 'dashboard:site_settings' site.domain %}" target="_blank">Edit</a></td>
+            </tr>
+        {% endfor %}
+        
+        </tbody>
+    </table>
+
+
+
+
+</div>
+
+{% endblock container %}
+
+{% block extra_js %}
+    
+    <script type="text/javascript">
+        (function ($) {
+            
+            $('.js_time_diff_text').each(function(){
+                var _t = $(this);
+                var x = _t.attr('data-time');
+                x = x.split('.').join('');
+                var data_time = new Date(x);
+                //_t.html(data_time);
+                //var a = ((new Date() - data_time)/1000).toString();
+                //_t.html(a);
+                
+                
+                var time_diff = Math.round((+new Date - data_time) / 1000);
+                var minute = 60,
+                    hour = minute * 60,
+                    day = hour * 24,
+                    month = day * 30;
+
+                console.log(time_diff);
+                var time_diff_text;
+
+                if (time_diff < 30)
+                    time_diff_text = 'just then.';
+                /*else if (time_diff < minute)
+                    time_diff_text = time_diff + ' seconds ago.';
+                else if (time_diff < 2 * minute)
+                    time_diff_text = 'a minute ago.';
+                else if (time_diff < hour)
+                    time_diff_text = Math.floor(time_diff / minute) + ' minutes ago.';
+                else if (Math.floor(time_diff / hour) === 1)
+                    time_diff_text = '1 hour ago.';
+                else if (time_diff < day)
+                    time_diff_text = Math.floor(time_diff / hour) + ' hours ago.';
+                else if (time_diff < day * 2)
+                    time_diff_text = 'yesterday';
+                 else if (time_diff < day * 31)
+                    time_diff_text = Math.floor(time_diff / day) + ' month ago';
+                else if (time_diff < month)
+                    time_diff_text = Math.floor(time_diff / day) + '1 month ago';*/
+                
+                else
+                    time_diff_text = 'long time ago';
+                _t.html(time_diff_text);
+            });
+            
+        })(jQuery)
+    </script>
+    
+{% endblock extra_js %}

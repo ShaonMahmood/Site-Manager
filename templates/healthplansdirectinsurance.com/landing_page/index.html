@@ -1,0 +1,140 @@
+{% lp_extends "base.html" %}
+{% load static %}
+
+
+{% block container %}
+    <div class="top-nav-slim">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <ul class="nav-slim-left">
+                        <li>
+                            <a href="tel:{{ site_info.phone_number|default:"" }}">
+                                <span class="fa fa-phone"></span>
+                                {{ site_info.phone_number|default:"" }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:{{ site_info.email_id|default:"" }}">
+                                <span class="fa fa-envelope"></span>
+                                {{ site_info.email_id|default:"" }}
+                            </a>
+                        </li>
+                    </ul>
+    
+                    {% include 'snippets/page-link.html' %}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="home-container" id="homeJS">
+        <div class="container">
+            <div class="row">
+                <div class="logo-container">
+                    <a href="{% url 'landing_page:index' %}">
+                        <img src="{% site_static 'img/logo.png' %}" alt="Logo"/>
+                    </a>
+                </div>
+                <div class="col">
+                    <div class="home-content">
+                        <h1>
+                        {% autoescape off %}
+                            {{ site_info.main_heading|default:"health<span>care</span>plans Insurance" }}
+                        {% endautoescape %}
+                        </h1>
+                        <p class="subheading">{{ site_info.main_heading_sub|default:"" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="zip-code-contaoner">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="zip-code-form clearfix">
+                        <div class="row">
+                            <div class="col col-1-2">
+                                <p>{{ zipCodetext.text|default:"Enter your zip code and <a href='' class='seePlansJs'>Compare</a> the plants, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur deleniti laudantium <a href='' class='seePlansJs'>nemo</a> pariatur tenetur." }}</p>
+                            </div>
+                            <div class="col col-1-2">
+                                <input type="text" id="homeZipJS" placeholder="Enter Zip"/>
+                                <button class="btn" id="homeZipButtonJS"> See Plans</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="common-section divider-btm">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h2 class="tu tc title-header">{{ benefit.text|default:"Key benifits of insurance ?" }}</h2>
+                    <p class="sub-description">{{ benefit.sub_slogan|default:""|safe }}</p>
+                </div>
+            </div>
+            <div class="row">
+            
+            {% for val in benefit.dataItem.values %}
+                <div class="col col-1-3">
+                    <div class="key-benefits">
+                        <span class="icon-benefits fa  {{ val.icon|default:"fa-clock-o" }}"></span>
+                        <h3>{{ val.title|default:"" }}</h3>
+                        <p>{{ val.detail|default:""|safe }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            
+            </div>
+        </div>
+    </div>
+    
+    <div class="common-section divider-btm">
+        <div class="container">
+            <div class="row">
+                <div class="col col-1-2">
+                    <h3 class="tu">{{ whychoose.text|default:"Why chose us ?" }}</h3>
+                    <div>{{ whychoose.sub_slogan|default:""|safe }}</div>
+                    <br/>
+                    <ul class="important-list">
+                    
+                    {% for v in whychoose.dataItem.values %}
+                        <li>{{ v.title }}</li>
+                    {% endfor %}
+                    
+                    </ul>
+                </div>
+                <div class="col col-1-2">
+                    <img src="{% site_static 'img/about.jpg' %}" class="w100" alt="About us"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="common-section">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h2 class="tu tc title-header">{{ abouttext.text|default:"About Us" }}</h2>
+                </div>
+            </div>
+            <div class="row">
+                
+                <div class="col col-1-1">   {# this should be col-1-2 with 2 column #}
+                    <p>{{ abouttext.sub_text|default:""|safe }}</p>
+                </div>
+                
+                {% comment %}<div class="col col-1-2">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aspernatur consequatur dolor dolorum ea enim facere, facilis fugit hic maxime nesciunt, pariatur, perferendis quaerat quidem tempore ut vel velit veniam! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta eaque et facilis itaque labore magnam molestiae obcaecati, perspiciatis, provident repellendus reprehenderit, sed sit temporibus. Animi at consequatur odit sit voluptatibus!<br/><br/> Lorem ipsum dolor sit ui similique sunt suscipit velit voluptatem? Eaque, quasi?Lorem ipsum dolor sit amet, consectetur Aliquid cupiditate delectus doloremque dolorum enim eos, ex, fugit inventore nesciunt nihil nisi nobis optio quas qui quibusdam recusandae sint temporibus voluptatum?<br/><br/> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, asperiores, cumque, debitis deleniti dolorem inventore ipsam molestias nulla numquam officia quae repudiandae sequi similique sunt suscipit velit voluptatem?</p>
+                </div>
+                <div class="col col-1-2">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aspernatur consequatur dolor dolorum ea enim facere, facilis fugit hic maxime nesciunt, pariatur, perferendis quaerat quidem tempore ut vel velit veniam! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta eaque et facilis itaque labore magnam molestiae obcaecati, perspiciatis, provident repellendus reprehenderit, sed sit temporibus. Animi at consequatur odit sit voluptatibus!<br/><br/> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, asperiores, cumque, debitis deleniti dolorem inventore ipsam molestias nulla numquam officia quae repudiandae sequi similique sunt suscipit velit voluptatem? Eaque, quasi?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid cupiditate delectus doloremque dolorum enim eos, ex, fugit inventore nesciunt nihil nisi nobis optio quas qui quibusdam recusandae sint temporibus voluptatum?</p>
+                </div>{% endcomment %}
+            </div>
+        </div>
+    </div>
+{% endblock container %}

@@ -1,0 +1,144 @@
+{# landing page no. 09 fghfgh #}
+
+{% extends 'base.html' %}
+{% load static %}
+{% load landing_page_tags %}
+
+
+{% block meta_default %}
+    {% include 'snippets/meta-default.html' %}
+{% endblock meta_default %}
+
+{% block gtm %}
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-5CXFJB6');</script>
+    <!-- End Google Tag Manager -->
+{% endblock gtm %}
+
+{% block title %}
+    
+    {% if page.get_page_name_display != 'Home' %}
+    
+        {% if page.title %} {{ page.title }}
+        {% else %} {{ page.get_page_name_display }} {% endif %}
+        
+    {% else %}
+    
+        {{ page.get_page_title }}
+
+    {% endif %}
+    
+{% endblock title %}
+
+
+{% block css %}
+        <link href="{% site_static 'css/slick.css' %}" rel="stylesheet">
+        <link href="{% site_static 'css/slick-theme.css' %}" rel="stylesheet">
+    {% include 'snippets/css-link.html' %}
+
+    <style>
+    .text-center{text-align: center; font-size: 35px}
+    .slicknav_menu .header_phn_no,
+    .header_phn_no.aside_heading{
+        display: none;
+    }
+    .slick-slide{
+        height: auto;
+    }
+
+    .partnerList{
+        display: none;
+    }
+    @media (max-width:991px) {
+        .header_phn_no.aside_heading{
+            display: block;
+            float: right;
+            height: 80px;
+            line-height: 80px;
+            color: #282761;
+            font-size: 17px;
+        }
+        .logo{float: left}
+    }
+    @media (max-width:768px) {
+        .header_phn_no.aside_heading{
+            height: 70px;
+            line-height: 70px;
+        }
+    }
+    @media (max-width:450px) {
+        .header_phn_no.aside_heading{
+            font-size: 15px;
+        }
+    }
+</style>
+
+{% endblock css %}
+
+
+{% block gtm_body %}
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CXFJB6"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+{% endblock gtm_body %}
+
+{% block header %}
+
+{% endblock header %}
+
+
+{% block container %}{% endblock container %}
+
+
+{% block footer %}
+
+    <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col tc">
+                        <a href=""><img src="{% site_static 'img/logo-white.png' %}" alt=""/></a>
+                        <ul class="footer-ul">
+                            <li><a href="{% url 'landing_page:index' 'terms' %}">Terms &amp; Conditions</a></li>
+                            <li><a href="{% url 'landing_page:index' 'privacy' %}">Privacy</a></li>
+                            <li><a href="#" class="seePlansJs">Plans</a></li>
+                        </ul>
+                        <p>Copyright 2018&copy;  {{ request.get_host }} . All rights reserved.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    {% include 'snippets/quote-form.html' %}
+{% endblock footer %}
+
+
+{% block js %}
+    {% include 'snippets/scripts.html' %}
+
+    <script>
+            $(document).ready(function(){
+                $('#planHeading li').click(function(){
+                    if($(this).hasClass('active')==false){
+                        $(this).addClass('active').siblings().removeClass('active');
+                        $($(this).data('target')).addClass('active').siblings().removeClass('active');
+                    }
+                });
+            });
+        </script>
+{% endblock js %}

@@ -1,0 +1,76 @@
+{# landing page no. 07 #}
+
+{% extends 'base.html' %}
+
+
+{% block meta_default %}
+    {% include 'snippets/meta-default.html' %}
+{% endblock meta_default %}
+
+{% block title %}
+    
+    {% if page.get_page_name_display != 'Home' %}
+    
+        {% if page.title %} {{ page.title }}
+        {% else %} {{ page.get_page_name_display }} {% endif %}
+        
+        {{ site_info.title_separator }}
+    {% endif %}
+    
+        {{ page.get_page_title }}
+    
+{% endblock title %}
+
+{% block css %}
+    {% include 'snippets/css-link.html' %}
+{% endblock css %}
+
+
+{% block header %}
+    <div class="top-nav">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <a href="{% url 'landing_page:index' %}" class="logo">
+                        <img src="{% site_static 'img/logo.png' %}" alt="Logo"/>
+                    </a>
+    
+                    <ul class="nav-slim-right">
+                        <li><a href="{% url 'landing_page:index' %}">Home</a></li>
+                        <li><a href="{% url 'landing_page:index' 'privacy' %}">Privacy</a></li>
+                        <li><a href="{% url 'landing_page:index' 'terms' %}">Terms</a></li>
+                        <li><a href="#" class="seePlansJs">See Plans</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+
+{% block container %}{% endblock container %}
+
+
+{% block footer %}
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <ul class="footer-ul">
+                        <li>&copy; {{ request.get_host }} 2017,&nbsp;&nbsp;All rights reserved.</li>
+                        <li><a href="{% url 'landing_page:index' 'terms' %}">Terms &amp; Conditions</a></li>
+                        <li><a href="{% url 'landing_page:index' 'privacy' %}">Privacy & Policy</a></li>
+                        <li><a href="#homeJS" class="msScrollTo"><span class="fa fa-arrow-up"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'snippets/quote-form.html' %}
+{% endblock footer %}
+
+
+{% block js %}
+    {% include 'snippets/scripts.html' %}
+{% endblock js %}

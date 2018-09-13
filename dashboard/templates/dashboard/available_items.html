@@ -1,0 +1,46 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Add item to page | {{ block.super }}{% endblock title %}
+
+{% block header %}
+    
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'dashboard:home' %}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'dashboard:site_settings' domain %}">{{ domain }}</a>
+        </li>
+        <li class="breadcrumb-item active">
+            {{ pagename }}
+        </li>
+    </ol>
+
+{% endblock header %}
+
+
+{% block container %}
+    
+    <div class="container">
+        <div class="col-sm-12">
+            <form action="{% url 'dashboard:show' domain pagename %}" method="post">
+                {% csrf_token %}
+                
+                {% for key, value in allItems.items %}
+                    <div class="form-group">
+                        <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                            <input type="checkbox" class="custom-control-input" name="{{ key }}" value={{ value }}
+                                   id="{{ key }}"
+                                    {% if key in is_present.keys %} checked {% endif %}>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">{{ key|title }}</span>
+                        </label>
+                    </div>
+                {% endfor %}
+                
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+    
+{% endblock %}

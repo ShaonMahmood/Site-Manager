@@ -1,0 +1,68 @@
+{% lp_extends "base.html" %}
+{% load static %}
+
+
+{% block title %}Thanks | {{ block.super }}{% endblock title %}
+
+{% block container %}
+
+	<div class="menu-container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <a href="{% url 'landing_page:index' %}" class="logo">
+                        <img src="{% site_static 'img/logo.png' %}" alt=""/>
+                    </a>
+
+                    <a class="header_phn_no aside_heading" href="tel:{{ site_info.phone_number }}">
+                        <span class="fa fa-phone"></span>
+                        {{ site_info.phone_number }}
+                    </a>
+
+                    <ul class="main-menu-ul" id="mainMenu">
+                        <li><a href="{% url 'landing_page:index' %}">Home</a></li>
+                        <li><a href="#common">Plan Info</a></li>
+                        <li><a href="#about-us">Benefits</a></li>
+                        <li><a href="#" class="seePlansJs">See Plans</a></li>
+                        <li><a class="header_phn_no" href="tel:{{ site_info.phone_number }}"><span
+                                class="fa fa-phone"></span> {{ site_info.phone_number }}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+{#    <div class="about-us">#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="col">#}
+{#                    <h2 class="base-color tc">{{ termsandprivacy.text|default:"Thanks For Your Patience" }}</h2>#}
+{#                    <ol class="policy-ul">#}
+{#                        {{ termsandprivacy.sub_text|default:"Items will be updated soon."|safe }}#}
+{##}
+{#                    </ol>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+    <div class="about-us" id="about-us">
+        <div class="container">
+            <div class="row">
+                <div class="col col-40p">
+                    <img src="
+                    {% if abouttext.featured_image %}
+                        {{ abouttext.featured_image.url }}
+                    {% else %}
+                        {% site_static 'img/amout-img.png' %}
+                    {% endif %}" class="mw100" alt=""/>
+                </div>
+                <div class="col col-60p">
+                    {#<h2 class="secondary-color text-center"> {{ abouttext.text|default:"Thank You!" }}</h2>#}
+                    <p class="seo-text">{{ abouttext.sub_text|default:""|safe }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock container %}

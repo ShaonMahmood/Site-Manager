@@ -1,0 +1,26 @@
+{% lp_extends "base.html" %}
+{% load static %}
+
+
+{% block title %}Terms | {{ block.super }}{% endblock title %}
+
+
+{% block container %}
+    
+    <div class="menu-container">
+        {% lp_include 'snippets/header-nav.html' %}
+    </div>
+    
+    <div class="common-section">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h2 class="tu tc title-header">Terms and Conditions</h2>
+                    <ol class="policy-ul">
+                        {{ termsandprivacy.sub_text|default:"Items will be updated soon."|safe }}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock container %}

@@ -1,0 +1,241 @@
+{% lp_extends "base.html" %}
+{% load static landing_page_tags %}
+
+{% block extra_css %}
+<style type="text/css">
+    .mw100 {max-width: 115%;}
+    .steps_sub_slogan{font-size:18px}
+    .steps_text{font-size:43px}
+    /*.each-steps{padding: 0 60px}*/
+    .each-steps h3{padding-top: 10px}
+    @media (max-width:768px){
+        .steps_sub_slogan{font-size:15px}
+        .steps_text{font-size:35px}
+		.btm-curve{height: 10vh}
+    }
+</style>
+{% endblock %}
+
+{% block container %}
+    <div class="menu-container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <a href="{% url 'landing_page:index' %}" class="logo">
+                        <img src="{% site_static 'img/logo.png' %}" alt=""/>
+                    </a>
+                    <a class="header_phn_no aside_heading" href="tel:{{ site_info.phone_number }}">
+                        <span class="fa fa-phone"></span>
+                        {{ site_info.phone_number }}
+                    </a>
+                    
+                    <ul class="main-menu-ul" id="mainMenu">
+                        <li><a href="{% url 'landing_page:index' %}" class="active">Home</a></li>
+                        <li><a href="{% url 'landing_page:index' %}#planinfo">Plan Info</a></li>
+                        <li><a href="{% url 'landing_page:index' %}#benefits">Benefits</a></li>
+                        <li><a href="#" class="seePlansJs">See Plans</a></li>
+                        <li><a class="header_phn_no" href="tel:{{ site_info.phone_number }}"><span
+                                class="fa fa-phone"></span> {{ site_info.phone_number }}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main content Start-- -->
+    <div class="home-container-wrapper">
+        <div class="home-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="title-header">
+                            <span>Your Right Place to find a<br> Short Term Insurance</span>
+                        </div>
+                        <h1>{{ site_info.main_heading|default:"HEALTHPLANS  INSURANCE  SITE" }}</h1>
+                        <p class="subheading">{{ site_info.main_heading_sub|default:"Compare Affordable Health Insurance Plans"|safe }}</p>
+                        <div class="zip-code-form clearfix">
+                            <input type="text" id="homeZipJS" placeholder="Enter Zip"/>
+                            <button class="btn" id="homeZipButtonJS">See Plans</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="home-container-bottom"></div>
+    </div>
+    
+    <div class="common-section b0" id="planinfo">
+        <div class="container">
+            <div class="row">
+                <div class="col col-30p hide-sm">
+                    <img
+                            src="{% if whychoose.featured_image %}{{ whychoose.featured_image.url }}{% else %}{% site_static 'img/lady.png' %}{% endif %}"
+                            class="mw100"
+                            alt=""/>
+                </div>
+                <div class="col col-70p">
+                    <h3 class="base-color">{{ whychoose.text|default:"ABOUT HEALTH CARE" }}</h3>
+                
+                    <div>{{ whychoose.sub_slogan|default:""|safe }}</div>
+                
+                    {% for val in whychoose.dataItem.values %}
+                        {% if forloop.counter0|divisibleby:2 %} {# column for each 2 #}
+                            <div class="row">
+                                <div class="col">
+                                    <ul class="ico-feature-ul">
+                        {% endif %}
+                        
+                                        <li>
+                                            <i class="{{ val.icon }}"></i>
+                                            <div class="ico-feature-cont">
+                                                <h4>{{ val.title|safe }}</h4>
+                                                <div>{{ val.detail|default:""|safe }} </div>
+                                            </div>
+                                        </li>
+                        
+                        {% if forloop.last or forloop.counter|divisibleby:2 %} {# column for each 2 #}
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                var ins_type_data = {
+                    {% for val in insurancetype.dataItem.values %}
+                        "plan-{{ forloop.counter }}": {
+                            "title": `{{ val.title|safe }}`,
+                            "icon": "{{ val.icon }}",
+                            "detail": `{{ val.detail|safe }}`,
+                            "detail-title": `{% for v in val.values %}{% for vv in v.values %}{{ vv.type_text }}{% endfor %}{% endfor %}`
+                        },
+                    {% endfor %}
+                };
+
+                var planHeading = $('#planHeading');
+                var planHeadingDetails = $('#planHeadingDetails');
+
+                for (var _key in ins_type_data) {
+                    var html1 =
+                        '<li data-target="#' + _key + '">' +
+                        '<i class="' + ins_type_data[_key]["icon"] + '"></i>' +
+                        '<h5>' + ins_type_data[_key]["title"] + '</h5>' +
+                        '</li>';
+                    planHeading.append(html1);
+
+                    var html2 =
+                        '<li id="' + _key + '">' +
+                        '<h4 class="base-color">' + ins_type_data[_key]["detail-title"] + '</h4>' +
+                        '<div>' + ins_type_data[_key]["detail"] + '</div>' +
+                        '<a href="#" class="seePlansJs btn btn-base">See Plans</a>' +
+                        '</li>';
+                    planHeadingDetails.append(html2);
+                }
+                $('#planHeading li:first-child').addClass('active');
+                $('#planHeadingDetails li:first-child').addClass('active');
+            })
+        })(jQuery)
+    </script>
+    
+    <div class="sp-offer" id="benefits">
+        <div class="container">
+            <div class="row">
+                <div class="col tc">
+                    <h3>JOIN WITH OUR FAMILY OF 10 MILLION+ MEMBERS ENJOYING THE PLANS</h3>
+                    <p>Our plans are money saver, simpler and has 100's of options to choose your right health plan.</p>
+                    <br/>
+                    <p class="countdowntime">Call us {{ site_info.phone_number }} <span>&nbsp;&nbsp;OR&nbsp;&nbsp;</span> <a href="#" class="seePlansJs btn btn-base">See Plans</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="common-section" style="padding-top:40px">
+        <div class="container">
+            <div class="row">
+                <div class="col tc">
+                    <h2 class="base-color">{{ insurancetype.text|default:"INSURANCE PLAN" }}</h2>
+                    <div class="seo-text-home">{{ insurancetype.sub_slogan|default:""|safe }}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-30p hide-sm">
+                    <img
+                            src="{% if insurancetype.featured_image %}{{ insurancetype.featured_image.url }}{% else %}{% site_static 'img/plan-img.jpg' %}{% endif %}"
+                            class="plan-img"
+                            alt="#"/>
+                </div>
+                <div class="col col-70p">
+                    <div class="row">
+                        <div class="col">
+                            <ul id="planHeading">
+                                
+                                {% comment %}{% for val in insurancetype.dataItem.values %}
+                                        <li {% if forloop.first %}class="active"{% endif %} data-target="#plan{{ forloop.counter }}">
+                                            <i class="{{ val.icon }}"></i>
+                                            <h5>{{ val.title|safe }}</h5>
+                                        </li>
+                                    {% endfor %}{% endcomment %}
+                            
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul id="planHeadingDetails">
+                                
+                                {% comment %}{% for val in benefit.dataItem.values %}
+                                        <li {% if forloop.first %}class="active"{% endif %} id="plan{{ forloop.counter }}">
+                                            <h4 class="base-color">{{ val.title|safe }}</h4>
+                                            <div>{{ val.detail|default:""|safe }}</div>
+                                            <a href="#" class="seePlansJs btn btn-base">See Plans</a>
+                                        </li>
+                                    {% endfor %}{% endcomment %}
+                            
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="btm-curve"></div>
+    <div class="common-section dark-section">
+        <div class="container">
+            <div class="row m-b-30">
+                <div class="col tc">
+                    <h2 class="steps_text">{{ steps.text|default:"INSURANCE BLOG" }}</h2>
+                    <div class="steps_sub_slogan">{{ steps.sub_slogan|default:"" |safe }}</div>
+                </div>
+            </div>
+        
+            {% for val in steps.dataItem.values %}
+                {% if forloop.counter0|divisibleby:2 %}
+                    <div class="row">
+                {% endif %}
+            
+            <div class="col col-1-2 m-b-30 each-steps">
+                <img src="{{ val.feat_img }}" class="blog-img" alt="{% site_static 'img/blog-bg.jpg' %}"/>
+                <h3><a href="#" class="blog-header">{{ val.detail|default:""|safe }}</a></h3>
+            </div>
+            
+                {% if forloop.last or forloop.counter|divisibleby:2 %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        
+        </div>
+    </div>
+    
+    
+    <!-- Main content End-- -->
+
+{% endblock container %}

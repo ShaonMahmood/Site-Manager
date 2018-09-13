@@ -1,0 +1,226 @@
+{% extends 'dashboard/base.html' %}
+
+{% load static %}
+
+{% block title %} {{ itemtype }} | {{ block.super }}{% endblock title %}
+
+{% block extra_css %}
+    <style>
+    .cancel-faq {
+        width: 38px;
+        padding: 6px
+    }
+    .cancel-faq span{
+        cursor: pointer;
+        background: #eee;
+        border: 1px solid #333;
+        padding: 2.5px 9px;
+        border-radius: 50%;
+    }
+    #plz-update {
+        font-size: 20px;
+        font-weight: bold;
+        color: red;
+        display: none;
+        -webkit-animation: pulse 1s linear infinite;
+        -moz-animation: pulse 1s linear infinite;
+        animation: pulse 1s linear infinite;
+    }
+    @keyframes pulse {
+        50% {
+            opacity: 0;
+        }
+    }
+    </style>
+{% endblock %}
+
+{% block header %}
+    
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'dashboard:home' %}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'dashboard:site_settings' domain %}">{{ site.domain }}</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'dashboard:site_settings' domain %}">{{ pageitem.page.page_name }}</a>
+        </li>
+        <li class="breadcrumb-item active">Edit {{ itemtype|title }}</li>
+
+</ol>
+
+{% endblock header %}
+
+{% block container %}
+
+    <div class="container">
+        
+        <div class="col-sm-12">
+            <h2>Edit content for {{ pageitem.content_type.model }}:
+            <a
+                target="_blank"
+                class="float-right"
+                href="{{ request.scheme }}://{{ site.domain }}{% if pagename != "index" %}/{{ pagename }}{% endif %}"
+            >View page</a>
+        </h2>
+            
+            <form class="form" method="post" id="dataform" enctype="multipart/form-data">
+                
+                {% csrf_token %}
+                
+                <div id="form_wrapper">
+                
+                {% for key,val in mainContent.items %}
+                    <div class="form-row" data-dict_indicator="{{ key }}">
+                        <div class="form-group col-md-6 faq_ques">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="{{ itemtype }}_q_0">Q</span>
+                                <input
+                                        type="text"
+                                        name="{{ itemtype }}_q_0"
+                                        class="form-control"
+                                        placeholder="{{ content1 }}"
+                                        aria-label="{{ content1 }}"
+                                        value="{{ val.Question }}{{ val.Heading }}" {# if question or heading #}
+                                        aria-describedby="{{ itemtype }}_q_0">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-6 faq_ans">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="{{ itemtype }}_a_0">A</span>
+                                <input
+                                        type="text"
+                                        name="{{ itemtype }}_a_0"
+                                        class="form-control"
+                                        placeholder="{{ content2 }}"
+                                        aria-label="{{ content2 }}"
+                                        value="{{ val.Answer }}{{ val.Content }}"   {# if answer or content #}
+                                        aria-describedby="{{ itemtype }}_a_0">
+                                 <div class="cancel-faq text-center"><span>x</span></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+                </div>
+                
+                <button class="btn btn-outline-warning add-new">
+                    {% if itemtype == 'faq' %}
+                        Add new Q/A
+                    {% else %}
+                        Add new features
+                    {% endif %}
+                </button>
+                <button type="submit" class="btn btn-success">Update</button>
+                <span id="plz-update">&#8592;Some Data may lost, please update first</span>
+            
+            </form>
+            
+            {# <div id="json"></div>#}
+            
+        </div>
+    
+    </div>
+{% endblock container %}
+
+{% block extra_js %}
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+        function DeleteItem() {
+            $('.cancel-faq').unbind().click(function (e) {
+                e.preventDefault();
+                var _elem = $(this).closest('.form-row');
+                _elem.remove();
+                $('#plz-update').show();
+            });
+        }
+
+        DeleteItem();
+
+        $('.add-new').click(function (e) {
+            e.preventDefault();
+            var _count = $('#form_wrapper .form-row').length;
+            var _html =
+                '<div class="form-row" data-dict_indicator="item_'+_count+'">' +
+                    '<div class="form-group col-md-6 faq_ques">' +
+                        '<div class="input-group">' +
+                            '<span class="input-group-addon" id="{{ itemtype }}_q_' + _count + '">Q</span>' +
+                            '<input ' +
+                                    'type="text"' +
+                                    'name="{{ itemtype }}_q_' + _count + '"' +
+                                    'class="form-control"' +
+                                    'placeholder="{{ content1 }}"' +
+                                    'aria-label="{{ content1 }}"' +
+                                    'aria-describedby="{{ itemtype }}_q_' + _count + '">' +
+                        '</div>' +
+                    '</div>' +
+
+                    '<div class="form-group col-md-6 faq_ans">' +
+                        '<div class="input-group">' +
+                            '<span class="input-group-addon" id="{{ itemtype }}_a_' + _count + '">A</span>' +
+                            '<input ' +
+                                    'type="text"' +
+                                    'name="{{ itemtype }}_a_' + _count + '"' +
+                                    'class="form-control"' +
+                                    'placeholder="{{ content2 }}"' +
+                                    'aria-label="{{ content2 }}"' +
+                                    'aria-describedby="{{ itemtype }}_a_' + _count + '">' +
+                            '<div class="cancel-faq text-center"><span>x</span></div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            if(_count < 8)  //question answer limited to 8
+                $('#form_wrapper').append(_html);
+
+            DeleteItem();
+        });
+
+
+
+
+        var _json_data = {};
+        var c = 0;  //counter
+        $('#dataform').submit(function (e) {
+            e.preventDefault();
+            $('#form_wrapper .form-row').each(function () {
+                var _t = $(this);
+                if(_t.find('input[aria-describedby^="{{ itemtype }}_q_"]').val()) {
+                    var que_ans = {
+                        "{{ content1 }}": _t.find('input[aria-describedby^="{{ itemtype }}_q_"]').val(),
+                        "{{ content2 }}": _t.find('input[aria-describedby^="{{ itemtype }}_a_"]').val()
+                    };
+                    if(_t.attr('data-dict_indicator'))  {# if renders from backend data #}
+                        _json_data[_t.attr('data-dict_indicator')] = que_ans
+                    else
+                        _json_data["item_" + c] = que_ans;
+                    c++;
+                }
+            });
+            _json_data = JSON.stringify(_json_data);
+
+            $.ajax({
+                type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+                url         : '{% url 'dashboard:form2_data_add' domain pageitem.page.page_name pageitem.content_type.model pageitem.id %}', // the url where we want to POST
+                data        : _json_data,
+                beforeSend  : function(xhr) {xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));},
+                dataType    : 'json', // what type of data do we expect back from the server
+                encode      : true ,
+                success     : function (data) {
+                                window.location = "{{ request.scheme }}://{{ request.get_host }}{% url 'dashboard:site_settings' domain %}"
+                          },
+                error: function(jqXHR, textStatus, errorThrown){
+                    //if fails
+                }
+            });
+
+            //$('#json').html(_json_data);
+        });
+
+
+    });
+</script>
+{% endblock %}

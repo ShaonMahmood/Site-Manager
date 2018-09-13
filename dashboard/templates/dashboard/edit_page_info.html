@@ -1,0 +1,76 @@
+{% extends 'dashboard/base.html' %}
+
+{% block header %}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{% url 'dashboard:home' %}">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{% url 'dashboard:site_settings' domain %}">{{ site.domain }}</a>
+    </li>
+    <li class="breadcrumb-item active">Edit Page Info</li>
+
+</ol>
+
+{% endblock header %}
+
+{% block container %}
+
+<div class="container">
+
+    <div class="col-sm-12">
+        
+        <h2>Edit basic settings:
+            <a
+                target="_blank"
+                class="float-right"
+                {# pagename not in the context (dashboard->views->edit_page) #}
+                href="{{ request.scheme }}://{{ site.domain }}{% if pagename != "index" %}/{{ pagename }}{% endif %}"
+            >View page</a>
+        </h2>
+
+        <form class="form" method="post">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="id_page_nav_name">Page Nav Name:</label>
+                <input class="form-control" name="page_nav_name" value="{{ form.page_nav_name.value|default:'' }}" id="id_page_nav_name"/>
+            </div>
+
+            <div class="form-group">
+                <label for="id_title">Page Title:</label>
+                <input class="form-control" name="title" value="{{ form.title.value|default:'' }}" id="id_title">
+            </div>
+
+            <div class="form-group d-none"> {# not displaying #}
+                <label for="id_sub_title">Page Sub-Title:</label>
+                <input class="form-control" name="sub_title" value="{{ form.sub_title.value|default:'' }}" id="id_sub_title"/>
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="id_meta_description">Page Meta Description:</label>
+                <textarea class="form-control" rows="2" name="meta_description" cols="40" rows="10" id="id_meta_description">{{ form.meta_description.value|default:'' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="id_meta_keywords">Page Meta Keyword:</label>
+                <textarea
+                        class="form-control"
+                        name="meta_keywords"
+                        placeholder="Comma(,) separated value"
+                        id="id_meta_keywords"
+                >{{ form.meta_keywords.value|default:'' }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update</button>
+
+        </form>
+
+    </div>
+
+</div>
+{% endblock container %}
