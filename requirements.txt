@@ -8,7 +8,7 @@ gunicorn==19.7.1
 idna==2.6
 kombu==4.1.0
 olefile==0.44
-Pillow==4.3.0
+Pillow==8.3.2
 psycopg2==2.7.3.1
 python-hglib==2.4
 pytz==2017.2
